@@ -1,0 +1,1804 @@
+[
+    {
+        "id": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "type": "tab",
+        "createdDate": "2026-07-30T06:01:50.544Z",
+        "label": "motor_claim",
+        "disabled": false,
+        "info": "",
+        "functionSeq": 0,
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "relativeParentPath": ""
+    },
+    {
+        "id": "sd_KSPIjGRQyiVfJsJL",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "getTotalPolicy",
+        "path": "/claim",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "get",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 145,
+        "y": 80,
+        "wires": [
+            [
+                "sd_ThXGcgcavQjqQq36"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_KSPIjGRQyiVfJsJL"
+    },
+    {
+        "id": "sd_ThXGcgcavQjqQq36",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"inside script node\")\nbh.local.query=\"select * from motor_claims.policies\"",
+        "functionName": "sd_ThXGcgcavQjqQq36",
+        "category": "Function",
+        "x": 265,
+        "y": 80,
+        "wires": [
+            [
+                "sd_15W5jWEUylV6lHiA"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_aK4cTo0GZ46FvEL3",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_aK4cTo0GZ46FvEL3",
+        "category": "HTTP",
+        "x": 505,
+        "y": 80,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_15W5jWEUylV6lHiA",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sd_15W5jWEUylV6lHiA",
+        "category": "Storage",
+        "x": 385,
+        "y": 80,
+        "wires": [
+            [
+                "sd_aK4cTo0GZ46FvEL3"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_rKjGOOyDJFMlpDH1",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "getPolicyByPolicyNo",
+        "path": "/policy/:policyNo",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "get",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "sd_Co7m3tBEgoaEaTO7"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_rKjGOOyDJFMlpDH1"
+    },
+    {
+        "id": "sd_Co7m3tBEgoaEaTO7",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "getPolicyByPolicyId",
+        "script": "\n//bh.local.query=\"select * from motor_claims.policies where policy_no=\"+bh.input.params.policyNo;\nbh.local.query = `SELECT * FROM motor_claims.policies WHERE policy_no = '${bh.input.params.policyNo}'`;",
+        "functionName": "getPolicyByPolicyId",
+        "category": "Function",
+        "x": 265,
+        "y": 220,
+        "wires": [
+            [
+                "sd_4D6Q0R1fXx1ExVO1"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_4D6Q0R1fXx1ExVO1",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "executeSQLQuery",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "executeSqlQuery",
+        "category": "Storage",
+        "x": 385,
+        "y": 220,
+        "wires": [
+            [
+                "sd_qSYpcmsrX5ojENYQ"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_qSYpcmsrX5ojENYQ",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "getPolicyDetails",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "getPolicyDetails",
+        "category": "HTTP",
+        "x": 545,
+        "y": 220,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_N5rJcLl8WmHMYH5T",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "insert claim ",
+        "path": "/claim",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "post",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 65,
+        "y": 360,
+        "wires": [
+            [
+                "sd_WgcNzgucwQOkmOJ7"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_N5rJcLl8WmHMYH5T"
+    },
+    {
+        "id": "sd_VdNOf1bGiSZTj1BY",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "scriptForClaim",
+        "script": "const now = new Date();\n\nconst date =\n    now.getFullYear().toString() +\n    String(now.getMonth() + 1).padStart(2, '0') +\n    String(now.getDate()).padStart(2, '0');\n\nconst random = Math.floor(Math.random() * 99999)\n    .toString()\n    .padStart(5, '0');\n\nbh.local.claimId = `CLM-${date}-${random}`;\nbh.local.params = {\n    claim_id: bh.local.claimId,              // Generate CLM-YYYYMMDD-NNNNN\n    policy_no: bh.input.body.policy_no,\n    date_of_loss: bh.input.body.date_of_loss,\n    loss_code: bh.input.body.loss_code,\n    part_group_code: bh.input.body.part_group_code,\n    estimated_parts_cost: bh.input.body.estimated_parts_cost,\n    garage_type: bh.input.body.garage_type,\n    fir_filed: bh.input.body.fir_filed,\n    valid_licence: bh.input.body.valid_licence,\n    loss_description: bh.input.body.loss_description\n};\n// bh.local.query =\n// \"INSERT INTO motor_claims.claims (\" +\n// \"claim_id, \" +\n// \"policy_no, \" +\n// \"date_of_loss, \" +\n// \"intimated_at, \" +\n// \"loss_code, \" +\n// \"part_group_code, \" +\n// \"estimated_parts_cost, \" +\n// \"garage_type, \" +\n// \"fir_filed, \" +\n// \"valid_licence, \" +\n// \"loss_description, \" +\n// \"depreciated_parts, \" +\n// \"labour_cost, \" +\n// \"gross_assessed, \" +\n// \"system_net_payable, \" +\n// \"surveyor_net_payable, \" +\n// \"deduction_trace, \" +\n// \"surveyor_remarks, \" +\n// \"manager_remarks, \" +\n// \"settlement_ref, \" +\n// \"status, \" +\n// \"created_at, \" +\n// \"updated_at\" +\n// \") VALUES (\" +\n// \"'\" + bh.local.claimId + \"', \" +\n// \"'\" + bh.input.body.policy_no + \"', \" +\n// \"'\" + bh.input.body.date_of_loss + \"', \" +\n// \"NOW(), \" +\n// \"'\" + bh.input.body.loss_code + \"', \" +\n// \"'\" + bh.input.body.part_group_code + \"', \" +\n// bh.input.body.estimated_parts_cost + \", \" +\n// \"'\" + bh.input.body.garage_type + \"', \" +\n// bh.input.body.fir_filed + \", \" +\n// bh.input.body.valid_licence + \", \" +\n// \"'\" + bh.input.body.loss_description + \"', \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"NULL, \" +\n// \"'REGISTERED', \" +\n// \"NOW(), \" +\n// \"NOW()\" +\n// \");\";\n\nconsole.log(\"=====================>\")\nvar lossDate = new Date(bh.input.body.date_of_loss);\nvar startDate = new Date(bh.local.fetchResult[0].policy_start_date);\nvar endDate = new Date(bh.local.fetchResult[0].policy_end_date);\nbh.local.flag=0;\n// Check Date of Loss is within Policy Period\nif (lossDate >= startDate && lossDate <= endDate) {\n\n    // ===== INSERT QUERY =====\n    bh.local.flag=1;\n    bh.local.query =\n    \"INSERT INTO motor_claims.claims (\" +\n    \"claim_id, \" +\n    \"policy_no, \" +\n    \"date_of_loss, \" +\n    \"intimated_at, \" +\n    \"loss_code, \" +\n    \"part_group_code, \" +\n    \"estimated_parts_cost, \" +\n    \"garage_type, \" +\n    \"fir_filed, \" +\n    \"valid_licence, \" +\n    \"loss_description, \" +\n    \"depreciated_parts, \" +\n    \"labour_cost, \" +\n    \"gross_assessed, \" +\n    \"system_net_payable, \" +\n    \"surveyor_net_payable, \" +\n    \"deduction_trace, \" +\n    \"surveyor_remarks, \" +\n    \"manager_remarks, \" +\n    \"settlement_ref, \" +\n    \"status, \" +\n    \"created_at, \" +\n    \"updated_at\" +\n    \") VALUES (\" +\n    \"'\" + bh.local.claimId + \"', \" +\n    \"'\" + bh.input.body.policy_no + \"', \" +\n    \"'\" + bh.input.body.date_of_loss + \"', \" +\n    \"NOW(), \" +\n    \"'\" + bh.input.body.loss_code + \"', \" +\n    \"'\" + bh.input.body.part_group_code + \"', \" +\n    bh.input.body.estimated_parts_cost + \", \" +\n    \"'\" + bh.input.body.garage_type + \"', \" +\n    bh.input.body.fir_filed + \", \" +\n    bh.input.body.valid_licence + \", \" +\n    \"'\" + bh.input.body.loss_description + \"', \" +\n    \"NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, \" +\n    \"'REGISTERED', NOW(), NOW());\";\n\n} else {\n\n   \n    bh.local.query=\"select * from motor_claims.claims\";\n\n\n}",
+        "functionName": "scriptForClaim",
+        "category": "Function",
+        "x": 345,
+        "y": 360,
+        "wires": [
+            [
+                "sd_seWkDaFVCimBM1tg"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_seWkDaFVCimBM1tg",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "sqlForClaim",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sqlForClaim",
+        "category": "Storage",
+        "x": 425,
+        "y": 360,
+        "wires": [
+            [
+                "sd_lSRRMA0laK1eOGk0"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_xXyz8ep6LklEYU2g",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "response",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.response",
+            "send": "bh.local.response"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_xXyz8ep6LklEYU2g",
+        "category": "HTTP",
+        "x": 605,
+        "y": 360,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_Jv8qSpRJH2rQUQMz",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "getClaim",
+        "path": "/claim/:claimId",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "get",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 125,
+        "y": 500,
+        "wires": [
+            [
+                "sd_vOCLwURWa9aFaGgM"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_Jv8qSpRJH2rQUQMz"
+    },
+    {
+        "id": "sd_xpjeZdDlkdGunvfz",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_xpjeZdDlkdGunvfz",
+        "category": "HTTP",
+        "x": 565,
+        "y": 500,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_vOCLwURWa9aFaGgM",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "scriptForGetClaim",
+        "script": "\n\nbh.local.query = `SELECT * FROM motor_claims.claims WHERE claim_id = '${bh.input.params.claimId}'`;",
+        "functionName": "scriptForGetClaim",
+        "category": "Function",
+        "x": 245,
+        "y": 500,
+        "wires": [
+            [
+                "sd_6D6tVuZR9T9a18l4"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_6D6tVuZR9T9a18l4",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "sqlForClaimByClaimId",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sqlForClaimByClaimId",
+        "category": "Storage",
+        "x": 400,
+        "y": 500,
+        "wires": [
+            [
+                "sd_xpjeZdDlkdGunvfz"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_EboTZwar9HCbM3nJ",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "Surveyor decision",
+        "path": "/claim/:claimId/surveyor-action",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "post",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 125,
+        "y": 620,
+        "wires": [
+            [
+                "sd_WIcwylTbW08lASr9"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_EboTZwar9HCbM3nJ"
+    },
+    {
+        "id": "sd_WIcwylTbW08lASr9",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "scriptForSurveyerAction",
+        "script": "\nswitch (bh.input.body.action) {\n\n    case \"CONFIRM\":\n\n        bh.local.query = `\n        UPDATE motor_claims.claims\n        SET\n            surveyor_remarks = '${bh.input.body.remark}',\n            status = 'MANAGER_APPROVAL',\n            updated_at = NOW()\n        WHERE claim_id = '${bh.input.params.claimId}';\n        `;\n        break;\n\n\n    case \"REVISE\":\n\n        bh.local.query = `\n        UPDATE motor_claims.claims\n        SET\n            surveyor_net_payable = ${bh.input.body.revised_net_payable},\n            surveyor_remarks = '${bh.input.body.remark}',\n            status = 'MANAGER_APPROVAL',\n            updated_at = NOW()\n        WHERE claim_id = '${bh.input.params.claimId}';\n        `;\n        break;\n\n\n    case \"REPUDIATE\":\n\n        bh.local.query = `\n        UPDATE motor_claims.claims\n        SET\n            surveyor_remarks = '${bh.input.body.remark}',\n            status = 'REPUDIATED',\n            updated_at = NOW()\n        WHERE claim_id = '${bh.input.params.claimId}';\n        `;\n        break;\n\n}",
+        "functionName": "scriptForSurveyerAction",
+        "category": "Function",
+        "x": 245,
+        "y": 620,
+        "wires": [
+            [
+                "sd_zrRVOGLVV8vFDUd3"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_zrRVOGLVV8vFDUd3",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "SQLForSurveyerAction",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sqlForSurveyerAction",
+        "category": "Storage",
+        "x": 385,
+        "y": 620,
+        "wires": [
+            [
+                "sd_pzPFlDrRmwErStm0"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_pzPFlDrRmwErStm0",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_pzPFlDrRmwErStm0",
+        "category": "HTTP",
+        "x": 545,
+        "y": 620,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_Dt8fziUZLsierLTp",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "Manager decision",
+        "path": "/claim/:claimId/manager-action",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "post",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 125,
+        "y": 760,
+        "wires": [
+            [
+                "sd_7mahdeNf95YXgIMg"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_Dt8fziUZLsierLTp"
+    },
+    {
+        "id": "sd_7mahdeNf95YXgIMg",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "scriptForManagerAction",
+        "script": "// Generate Settlement Reference\nlet year = new Date().getFullYear();\nlet sequence = Math.floor(100000 + Math.random() * 900000);\n\nbh.local.settlementRef = `STL-${year}-${sequence}`;\n\nswitch (bh.input.body.action) {\n\n    case \"APPROVE\":\n\n        bh.local.query = `\n        UPDATE motor_claims.claims\n        SET\n            manager_remarks = '${bh.input.body.remark}',\n            settlement_ref = '${bh.local.settlementRef}',\n            status = 'SETTLED',\n            updated_at = NOW()\n        WHERE claim_id = '${bh.input.params.claimId}';\n        `;\n        break;\n\n    case \"REJECT\":\n\n        bh.local.query = `\n        UPDATE motor_claims.claims\n        SET\n            manager_remarks = '${bh.input.body.remark}',\n            status = 'REJECTED',\n            updated_at = NOW()\n        WHERE claim_id = '${bh.input.params.claimId}';\n        `;\n        break;\n}",
+        "functionName": "scriptForManagerAction",
+        "category": "Function",
+        "x": 245,
+        "y": 760,
+        "wires": [
+            [
+                "sd_P8QzwmEVaNBeSqLl"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_P8QzwmEVaNBeSqLl",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "sqlForManagerAction",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sqlForManagerAction",
+        "category": "Storage",
+        "x": 385,
+        "y": 760,
+        "wires": [
+            [
+                "sd_6AmkdtWuEpUXa8zs"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_6AmkdtWuEpUXa8zs",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_6AmkdtWuEpUXa8zs",
+        "category": "HTTP",
+        "x": 545,
+        "y": 760,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_lSRRMA0laK1eOGk0",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "scriptForClaimRegister",
+        "script": "if(bh.local.flag==1)\n{\nbh.local.response = {\n    success: true,\n    message: \"Claim registered successfully\",\n    data: {\n        claimId: bh.local.claimId,\n        status: \"REGISTERED\",\n        netPayable: 0,\n        sla: null\n    }\n};\n}\nelse{\n     bh.local.response = {\n        success: false,\n        message: \"Date of Loss must be between \" +\n                 bh.local.fetchResult[0].policy_start_date +\n                 \" and \" +\n                 bh.local.fetchResult[0].policy_end_date\n    };\n}",
+        "functionName": "scriptForClaimRegister",
+        "category": "Function",
+        "x": 525,
+        "y": 360,
+        "wires": [
+            [
+                "sd_xXyz8ep6LklEYU2g"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_lpJlbT6RVqBFWgWD",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "apiResponse",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "bh.local",
+            "value": "statusCode",
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": "bh.local.statusCode",
+            "obj": "bh.local.apiResponse",
+            "send": "bh.local.apiResponse"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_lpJlbT6RVqBFWgWD",
+        "category": "HTTP",
+        "x": 885,
+        "y": 360,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_EGBkvt88yMWK7vAK",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
+        "functionName": "sd_EGBkvt88yMWK7vAK",
+        "category": "Function",
+        "x": 785,
+        "y": 360,
+        "wires": [
+            [
+                "sd_lpJlbT6RVqBFWgWD"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_C9cqXXv5vEWafq3n",
+        "type": "Catch",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "start",
+        "name": "",
+        "selectedNodes": [
+            "sd_VdNOf1bGiSZTj1BY",
+            "sd_seWkDaFVCimBM1tg",
+            "sd_lSRRMA0laK1eOGk0"
+        ],
+        "selectCatchType": "selectednodes",
+        "masternodeList": "",
+        "ignoreList": "",
+        "functionName": "sd_C9cqXXv5vEWafq3n",
+        "category": "General",
+        "x": 685,
+        "y": 360,
+        "wires": [
+            [
+                "sd_EGBkvt88yMWK7vAK"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim"
+    },
+    {
+        "id": "sd_fP2M6hz3SPdIbwhp",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "apiResponse",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "bh.local",
+            "value": "statusCode",
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": "bh.local.statusCode",
+            "obj": "bh.local.apiResponse",
+            "send": "bh.local.apiResponse"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_fP2M6hz3SPdIbwhp",
+        "category": "HTTP",
+        "x": 861.3333129882812,
+        "y": 506.8020935058594,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_cIypGfKOwa1mDKhN",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
+        "functionName": "sd_cIypGfKOwa1mDKhN",
+        "category": "Function",
+        "x": 761.3333129882812,
+        "y": 506.8020935058594,
+        "wires": [
+            [
+                "sd_fP2M6hz3SPdIbwhp"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_v5P1wFiuWudrVKGw",
+        "type": "Catch",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "start",
+        "name": "",
+        "selectedNodes": [
+            "sd_vOCLwURWa9aFaGgM",
+            "sd_6D6tVuZR9T9a18l4"
+        ],
+        "selectCatchType": "selectednodes",
+        "masternodeList": "",
+        "ignoreList": "",
+        "functionName": "sd_v5P1wFiuWudrVKGw",
+        "category": "General",
+        "x": 661.3333129882812,
+        "y": 506.8020935058594,
+        "wires": [
+            [
+                "sd_cIypGfKOwa1mDKhN"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim"
+    },
+    {
+        "id": "sd_pzPbL3ztxgT9c08F",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "apiResponse",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "bh.local",
+            "value": "statusCode",
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": "bh.local.statusCode",
+            "obj": "bh.local.apiResponse",
+            "send": "bh.local.apiResponse"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_pzPbL3ztxgT9c08F",
+        "category": "HTTP",
+        "x": 865,
+        "y": 620,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_K9QVHxiYw0tjjJ0w",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
+        "functionName": "sd_K9QVHxiYw0tjjJ0w",
+        "category": "Function",
+        "x": 765,
+        "y": 620,
+        "wires": [
+            [
+                "sd_pzPbL3ztxgT9c08F"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_FkfeWtVTF2eHZ1XZ",
+        "type": "Catch",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "start",
+        "name": "",
+        "selectedNodes": [
+            "sd_WIcwylTbW08lASr9",
+            "sd_zrRVOGLVV8vFDUd3"
+        ],
+        "selectCatchType": "selectednodes",
+        "masternodeList": "",
+        "ignoreList": "",
+        "functionName": "sd_FkfeWtVTF2eHZ1XZ",
+        "category": "General",
+        "x": 665,
+        "y": 620,
+        "wires": [
+            [
+                "sd_K9QVHxiYw0tjjJ0w"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim"
+    },
+    {
+        "id": "sd_dSB533XBEAsZRfzi",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "apiResponse",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "bh.local",
+            "value": "statusCode",
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": "bh.local.statusCode",
+            "obj": "bh.local.apiResponse",
+            "send": "bh.local.apiResponse"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_dSB533XBEAsZRfzi",
+        "category": "HTTP",
+        "x": 865,
+        "y": 760,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_s1P43hWKEtNw9t2a",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
+        "functionName": "sd_s1P43hWKEtNw9t2a",
+        "category": "Function",
+        "x": 765,
+        "y": 760,
+        "wires": [
+            [
+                "sd_dSB533XBEAsZRfzi"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_iGme6j8NHSVpVLl9",
+        "type": "Catch",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "start",
+        "name": "",
+        "selectedNodes": [
+            "sd_7mahdeNf95YXgIMg",
+            "sd_P8QzwmEVaNBeSqLl"
+        ],
+        "selectCatchType": "selectednodes",
+        "masternodeList": "",
+        "ignoreList": "",
+        "functionName": "sd_iGme6j8NHSVpVLl9",
+        "category": "General",
+        "x": 665,
+        "y": 760,
+        "wires": [
+            [
+                "sd_s1P43hWKEtNw9t2a"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim"
+    },
+    {
+        "id": "sd_QWjoIlcRIlAaBWJ3",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "apiResponse",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "bh.local",
+            "value": "statusCode",
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": "bh.local.statusCode",
+            "obj": "bh.local.apiResponse",
+            "send": "bh.local.apiResponse"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_QWjoIlcRIlAaBWJ3",
+        "category": "HTTP",
+        "x": 867,
+        "y": 230.1354217529297,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_0TAbzEZOcSWswUIb",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
+        "functionName": "sd_0TAbzEZOcSWswUIb",
+        "category": "Function",
+        "x": 767,
+        "y": 230.1354217529297,
+        "wires": [
+            [
+                "sd_QWjoIlcRIlAaBWJ3"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_8aw1Wepjvo5OtFQo",
+        "type": "Catch",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "start",
+        "name": "",
+        "selectedNodes": [
+            "sd_Co7m3tBEgoaEaTO7",
+            "sd_4D6Q0R1fXx1ExVO1",
+            "sd_qSYpcmsrX5ojENYQ"
+        ],
+        "selectCatchType": "selectednodes",
+        "masternodeList": "",
+        "ignoreList": "",
+        "functionName": "sd_8aw1Wepjvo5OtFQo",
+        "category": "General",
+        "x": 667,
+        "y": 230.1354217529297,
+        "wires": [
+            [
+                "sd_0TAbzEZOcSWswUIb"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim"
+    },
+    {
+        "id": "sd_WgcNzgucwQOkmOJ7",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "fetchStartAndEnd",
+        "script": "bh.local.fetchQuery = `\nSELECT\n    policy_start_date,\n    policy_end_date\nFROM motor_claims.policies\nWHERE policy_no = '${bh.input.body.policy_no}';\n`;",
+        "functionName": "fetchStartAndEnd",
+        "category": "Function",
+        "x": 165,
+        "y": 360,
+        "wires": [
+            [
+                "sd_RgMpwxx0sYuVDl8D"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_RgMpwxx0sYuVDl8D",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "fetchResult"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "fetchQuery"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sd_RgMpwxx0sYuVDl8D",
+        "category": "Storage",
+        "x": 265,
+        "y": 360,
+        "wires": [
+            [
+                "sd_VdNOf1bGiSZTj1BY"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_S8Oiec5Tj7DlbsqQ",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "",
+        "path": "/findDate/:policyNo",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "get",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "uploadFileOptions": "",
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 140,
+        "y": 920,
+        "wires": [
+            [
+                "sd_zZwEFGpJeOHK4zUy"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_S8Oiec5Tj7DlbsqQ"
+    },
+    {
+        "id": "sd_zZwEFGpJeOHK4zUy",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "bh.local.query = `\nSELECT\n    policy_start_date,\n    policy_end_date\nFROM motor_claims.policies\nWHERE policy_no = '${bh.input.params.policyNo}';\n`;",
+        "functionName": "sd_zZwEFGpJeOHK4zUy",
+        "category": "Function",
+        "x": 265,
+        "y": 920,
+        "wires": [
+            [
+                "sd_7owV2ap2to4oPfmg"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_7owV2ap2to4oPfmg",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "paramMappingObj": {},
+        "dbType": "postgres",
+        "functionName": "sd_7owV2ap2to4oPfmg",
+        "category": "Storage",
+        "x": 420,
+        "y": 920,
+        "wires": [
+            [
+                "sd_bfryDKo14MPOkQkv"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_uC3fZQmn1Ry74e1P",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "cookies": [],
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_uC3fZQmn1Ry74e1P",
+        "category": "HTTP",
+        "x": 605,
+        "y": 920,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_bfryDKo14MPOkQkv",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "\nconsole.log(\"start day \",bh.local.result[0].policy_start_date);",
+        "functionName": "sd_bfryDKo14MPOkQkv",
+        "category": "Function",
+        "x": 525,
+        "y": 920,
+        "wires": [
+            [
+                "sd_uC3fZQmn1Ry74e1P"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    }
+]

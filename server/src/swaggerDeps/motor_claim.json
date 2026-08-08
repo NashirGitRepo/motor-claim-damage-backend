@@ -1,0 +1,91 @@
+{
+    "/claim": {
+        "get": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        },
+        "post": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    },
+    "/policy/:policyNo": {
+        "get": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    },
+    "/claim/:claimId": {
+        "get": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    },
+    "/claim/:claimId/surveyor-action": {
+        "post": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    },
+    "/claim/:claimId/manager-action": {
+        "post": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    },
+    "/findDate/:policyNo": {
+        "get": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
+    }
+}

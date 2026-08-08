@@ -1,0 +1,13 @@
+{
+    "displayName": "motorClaimBackend",
+    "appName": "motorclaimbackend",
+    "description": "this is motor claim backend",
+    "lastModified": "2026-07-30T05:54:18.644Z",
+    "imgSourcePath": "",
+    "version": "1.0.0",
+    "appType": "apiOnly",
+    "templateName": "blank",
+    "createDate": "2026-07-30T05:54:17.658Z",
+    "analyticsId": "80bc4b7b-a7c6-92bb-3fe4-e3c63ef796f4",
+    "createdStudioVersion": "9.3.0"
+}
