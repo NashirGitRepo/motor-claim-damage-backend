@@ -539,20 +539,21 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       parentSpanInst
     );
     try {
-      const now = new Date();
+      // const now = new Date();
 
-      const date =
-        now.getFullYear().toString() +
-        String(now.getMonth() + 1).padStart(2, '0') +
-        String(now.getDate()).padStart(2, '0');
+      // const date =
+      //     now.getFullYear().toString() +
+      //     String(now.getMonth() + 1).padStart(2, '0') +
+      //     String(now.getDate()).padStart(2, '0');
 
-      const random = Math.floor(Math.random() * 99999)
-        .toString()
-        .padStart(5, '0');
+      // const random = Math.floor(Math.random() * 99999)
+      //     .toString()
+      //     .padStart(5, '0');
 
-      bh.local.claimId = `CLM-${date}-${random}`;
+      //bh.local.claimId = `CLM-${date}-${random}`;
+      console.log('input paramatere', bh.input.body);
       bh.local.params = {
-        claim_id: bh.local.claimId, // Generate CLM-YYYYMMDD-NNNNN
+        claim_id: bh.input.body.claim_id, // Generate CLM-YYYYMMDD-NNNNN
         policy_no: bh.input.body.policy_no,
         date_of_loss: bh.input.body.date_of_loss,
         loss_code: bh.input.body.loss_code,
@@ -650,7 +651,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           'updated_at' +
           ') VALUES (' +
           "'" +
-          bh.local.claimId +
+          bh.input.body.claim_id +
           "', " +
           "'" +
           bh.input.body.policy_no +
@@ -750,7 +751,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           success: true,
           message: 'Claim registered successfully',
           data: {
-            claimId: bh.local.claimId,
+            claimId: bh.input.body.claim_id,
             status: 'REGISTERED',
             netPayable: 0,
             sla: null,
