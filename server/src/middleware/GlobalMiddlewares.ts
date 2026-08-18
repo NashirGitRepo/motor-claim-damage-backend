@@ -13,8 +13,9 @@ export let Middlewares = {
     let corsOptions = {
       origin: [
         'https://alpha-pt.neutrinos-apps.com',
-        'localhost:4200/',
-        'https://motorclaimnashir.neutrinos-apps.com/api',
+        'http://localhost:4200',
+        'https://motorclaimnashir.neutrinos-apps.com',
+        'https://motordamageclaimbackend.neutrinos-apps.com',
       ],
 
       credentials: false,

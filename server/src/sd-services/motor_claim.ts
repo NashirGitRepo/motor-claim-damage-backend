@@ -307,6 +307,38 @@ export class motor_claim {
         this.generatedMiddlewares
       )
     );
+
+    this.app['post'](
+      `${this.serviceBasePath}/autosettle/:claimId`,
+      cookieParser(),
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'pre',
+        this.generatedMiddlewares
+      ),
+
+      async (req, res, next) => {
+        let bh: any = {};
+        try {
+          bh = this.sdService.__constructDefault(
+            { local: {}, input: {} },
+            req,
+            res,
+            next
+          );
+          let parentSpanInst = null;
+          bh = await this.prepareCasePayload(bh, parentSpanInst);
+          //appendnew_next_sd_r9ojCBxBZ43Nf5ju
+        } catch (e) {
+          return await this.errorHandler(bh, e, 'sd_r9ojCBxBZ43Nf5ju');
+        }
+      },
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'post',
+        this.generatedMiddlewares
+      )
+    );
     //appendnew_flow_motor_claim_HttpIn
   }
   //   service flows_motor_claim
@@ -753,8 +785,8 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           data: {
             claimId: bh.input.body.claim_id,
             status: 'REGISTERED',
-            netPayable: 0,
-            sla: null,
+            netPayable: Number(bh.input.body.netPayable),
+            sla: 24,
           },
         };
       } else {
@@ -768,7 +800,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         };
       }
       this.tracerService.sendData(spanInst, bh);
-      await this.sd_xXyz8ep6LklEYU2g(bh, parentSpanInst);
+      bh = await this.tokenCreation(bh, parentSpanInst);
       //appendnew_next_scriptForClaimRegister
       return bh;
     } catch (e) {
@@ -779,6 +811,250 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         spanInst,
         'scriptForClaimRegister'
       );
+    }
+  }
+
+  async tokenCreation(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'tokenCreation',
+      parentSpanInst
+    );
+    try {
+      // 1. Token Endpoint URL
+      bh.local.tokenUrl = 'https://ids-ctr-pt.neutrinos-apps.com/token';
+
+      // 2. Headers
+      // console.log("=============>>>>>before header");
+      // bh.local.headers = {
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //     "Content-Length": "<calculated when request is sent>",
+      //     "Host": "<calculated when request is sent>",
+      //     "User-Agent": "PostmanRuntime/7.56.1",
+      //     "Accept": "*/*",
+      //     "Accept-Encoding": "gzip, deflate, br",
+      //     "Connection": "keep-alive"
+      // };
+      bh.local.headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+      };
+
+      // 3. Body (x-www-form-urlencoded format)
+      const params = new URLSearchParams();
+      params.append('client_id', '0ddh_euTKkSA682Yy5HuC');
+      params.append(
+        'client_secret',
+        'e28WZR6ZKyrYILTSKKClFEwNlYoGR2cvISwFCoIXP4S7DJgsaqhHRSNqpoWgYbcx_DUlrSkoA1zS5uFOzP-J9C'
+      ); // Replace with complete secret
+      params.append('grant_type', 'client_credentials');
+
+      bh.local.tokenBody = params.toString();
+      console.log('=============>>>>>after header');
+      // Debug Log
+      console.log('Token Request Body:', bh.local.tokenBody);
+
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_T8zfMMc3hCO1EerD(bh, parentSpanInst);
+      //appendnew_next_tokenCreation
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_oQRXr74EptV0BoZD',
+        spanInst,
+        'tokenCreation'
+      );
+    }
+  }
+
+  async sd_T8zfMMc3hCO1EerD(bh, parentSpanInst) {
+    try {
+      let requestOptions: any = {
+        url: bh.local.tokenUrl,
+        timeout: 30000,
+        method: 'post',
+        headers: bh.local.headers,
+        followRedirects: true,
+        cookies: undefined,
+        authType: undefined,
+        body: bh.local.tokenBody,
+        paytoqs: false,
+        proxyConfig: undefined,
+        tlsConfig: undefined,
+        ret: 'json',
+        params: {},
+        username: undefined,
+        password: undefined,
+        token: undefined,
+        useQuerystring: false,
+      };
+      requestOptions.rejectUnauthorized = false;
+      requestOptions.tlsConfig = undefined;
+      requestOptions.proxyConfig = undefined;
+      let responseMsg: any = await this.sdService.httpRequest(
+        requestOptions.url,
+        requestOptions.timeout,
+        requestOptions.method,
+        requestOptions.headers,
+        requestOptions.followRedirects,
+        requestOptions.cookies,
+        requestOptions.authType,
+        requestOptions.body,
+        requestOptions.paytoqs,
+        requestOptions.proxyConfig,
+        requestOptions.tlsConfig,
+        requestOptions.ret,
+        requestOptions.params,
+        requestOptions.rejectUnauthorized,
+        requestOptions.username,
+        requestOptions.password,
+        requestOptions.token
+      );
+
+      bh.local.tokenResult = responseMsg;
+      bh = await this.bpmCall(bh, parentSpanInst);
+      //appendnew_next_sd_T8zfMMc3hCO1EerD
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_T8zfMMc3hCO1EerD');
+    }
+  }
+
+  async bpmCall(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan('bpmCall', parentSpanInst);
+    try {
+      // 1. Target Endpoint URL
+      bh.local.token = bh.local.tokenResult.payload.access_token;
+      //console.log("===============>token=======================>",bh.local.toke)
+      console.log(
+        '===============>token=======================>',
+        bh.local.tokenResult.payload.access_token
+      );
+
+      bh.local.caseUrl =
+        'https://alpha-pt.neutrinos-apps.com/caseservice/case/instance/create?branch=main';
+
+      // 2. Request Headers (as shown in Postman)
+      // bh.local.headers = {
+      //     "accept": "application/json",
+      //     "Content-Type": "application/json",
+      //     "Authorization": "Bearer nqHeehdeVmv4_iv6JwN8xWiYSiCSiDoZg8il90OcUaN"
+      // };
+
+      // 3. Request Payload (Body)
+      // Dynamic mapping from page and bh.local
+      const claimData = {
+        claim_id: bh.input.body.claim_id || '',
+        policy_number: bh.input.body.policy_no || '',
+        customerName: bh.input.body['Customer Name'] || '',
+        vehicleRegistration: bh.input.body['Registration Number'] || '',
+        vehicleType: bh.input.body['Vehicle Type'] || '',
+        idv: Number(bh.input.body['IDV'] || 0),
+        date_of_loss: bh.input.body.date_of_loss || '',
+        intimationDate: bh.input.body.intimationDate || '',
+        lossType: bh.input.body.loss_code || '',
+        part_group_code: bh.input.body.part_group_code || '',
+        estimatedPartsCost: Number(bh.input.body.estimated_parts_cost || 0),
+        garageType: bh.input.body.garage_type || '',
+        netPayable: Number(bh.input.body.netPayable || 0),
+        fire_file: String(Boolean(bh.input.body.fir_filed)),
+      };
+
+      console.log('api body------->', claimData);
+
+      // Final Payload Construction
+      bh.local.caseBody = {
+        caseType: 'motor-damage-claim',
+        caseData: claimData,
+        wfData: claimData,
+      };
+
+      console.log('Dynamic Payload:', bh.local.caseBody);
+      // Debug Log
+      console.log('Case Service Payload:', bh.local.caseBody);
+
+      console.log('token----------->', bh.local.token);
+      // bh.local.bpmHeader = {
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //     "Content-Length": "<calculated when request is sent>",
+      //     "Host": "<calculated when request is sent>",
+      //     "User-Agent": "PostmanRuntime/7.56.1",
+      //     "Accept": "*/*",
+      //     "Accept-Encoding": "gzip, deflate, br",
+      //     "Connection": "keep-alive",
+      //     "Authorization": "Bearer " + bh.local.token
+      // };
+      bh.local.bpmHeader = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + bh.local.token,
+      };
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_QNoMWebK5lCffiL4(bh, parentSpanInst);
+      //appendnew_next_bpmCall
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_O1sDrjng07a9vWEJ',
+        spanInst,
+        'bpmCall'
+      );
+    }
+  }
+
+  async sd_QNoMWebK5lCffiL4(bh, parentSpanInst) {
+    try {
+      let requestOptions: any = {
+        url: bh.local.caseUrl,
+        timeout: 30000,
+        method: 'post',
+        headers: bh.local.bpmHeader,
+        followRedirects: true,
+        cookies: undefined,
+        authType: undefined,
+        body: bh.local.caseBody,
+        paytoqs: false,
+        proxyConfig: undefined,
+        tlsConfig: undefined,
+        ret: 'json',
+        params: {},
+        username: undefined,
+        password: undefined,
+        token: undefined,
+        useQuerystring: false,
+      };
+      requestOptions.rejectUnauthorized = false;
+      requestOptions.tlsConfig = undefined;
+      requestOptions.proxyConfig = undefined;
+      let responseMsg: any = await this.sdService.httpRequest(
+        requestOptions.url,
+        requestOptions.timeout,
+        requestOptions.method,
+        requestOptions.headers,
+        requestOptions.followRedirects,
+        requestOptions.cookies,
+        requestOptions.authType,
+        requestOptions.body,
+        requestOptions.paytoqs,
+        requestOptions.proxyConfig,
+        requestOptions.tlsConfig,
+        requestOptions.ret,
+        requestOptions.params,
+        requestOptions.rejectUnauthorized,
+        requestOptions.username,
+        requestOptions.password,
+        requestOptions.token
+      );
+
+      bh.local.caseResult = responseMsg;
+      await this.sd_xXyz8ep6LklEYU2g(bh, parentSpanInst);
+      //appendnew_next_sd_QNoMWebK5lCffiL4
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_QNoMWebK5lCffiL4');
     }
   }
 
@@ -1391,6 +1667,116 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_uC3fZQmn1Ry74e1P');
+    }
+  }
+
+  async prepareCasePayload(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'prepareCasePayload',
+      parentSpanInst
+    );
+    try {
+      bh.local.claimStatus = 'SETTLED';
+      let year = new Date().getFullYear();
+      let sequence = Math.floor(100000 + Math.random() * 900000);
+
+      bh.local.settlementRef = `STL-${year}-${sequence}`;
+      // 2. Direct Postgres DB Update query parameterize karein
+      bh.local.updateQuery = `
+    UPDATE motor_claims.claims
+    SET 
+        status = '${bh.local.claimStatus}',
+        settlement_ref = '${bh.local.settlementRef}',
+        updated_at = NOW()
+    WHERE claim_id = '${bh.input.params.claimId}';
+`;
+
+      //console.log(`Claim ${bh.local.claimId} auto-settled with Ref: ${bh.local.settlementRef}`);
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_aO2oT6kuQvg32iWS(bh, parentSpanInst);
+      //appendnew_next_prepareCasePayload
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_RyaO1cY5cxrQTY6l',
+        spanInst,
+        'prepareCasePayload'
+      );
+    }
+  }
+
+  async sd_aO2oT6kuQvg32iWS(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_aO2oT6kuQvg32iWS',
+      parentSpanInst
+    );
+    try {
+      let configObj = this.sdService.getConfigObj(
+        'db-config',
+        'sd_c89k8zRbF9ofE0PK'
+      );
+      let connectionName;
+      if (
+        configObj &&
+        configObj.hasOwnProperty('dbOption') &&
+        configObj.dbOption.hasOwnProperty('name')
+      ) {
+        connectionName = configObj.dbOption.name;
+      } else {
+        throw new Error('Cannot find the selected config name');
+      }
+      let params = [];
+      params = params ? params : [];
+      bh.local.result = await new GenericRDBMSOperations().executeSQL(
+        connectionName,
+        bh.local.updateQuery,
+        params
+      );
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_fNKSLQB3VN88oPRM(bh, parentSpanInst);
+      //appendnew_next_sd_aO2oT6kuQvg32iWS
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_aO2oT6kuQvg32iWS',
+        spanInst,
+        'sd_aO2oT6kuQvg32iWS'
+      );
+    }
+  }
+
+  async sd_fNKSLQB3VN88oPRM(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_fNKSLQB3VN88oPRM',
+      parentSpanInst
+    );
+    try {
+      this.tracerService.sendData(spanInst, bh);
+      await this.httpOut(bh, parentSpanInst);
+      //appendnew_next_sd_fNKSLQB3VN88oPRM
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_fNKSLQB3VN88oPRM',
+        spanInst,
+        'sd_fNKSLQB3VN88oPRM'
+      );
+    }
+  }
+
+  async httpOut(bh, parentSpanInst) {
+    try {
+      bh.web.res.status(200).send(bh.local.result);
+
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_fnk95lz3fLrOKHC2');
     }
   }
 

@@ -488,7 +488,6 @@
             "send": "bh.local.response"
         },
         "dataModelIsArray": false,
-        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -507,7 +506,7 @@
         },
         "functionName": "sd_xXyz8ep6LklEYU2g",
         "category": "HTTP",
-        "x": 605,
+        "x": 1005,
         "y": 360,
         "wires": [],
         "__n_excludedFromValidation__": {},
@@ -1026,14 +1025,14 @@
         "viewType": "common",
         "nodeType": "flow",
         "name": "scriptForClaimRegister",
-        "script": "if(bh.local.flag==1)\n{\nbh.local.response = {\n    success: true,\n    message: \"Claim registered successfully\",\n    data: {\n        claimId: bh.input.body.claim_id,\n        status: \"REGISTERED\",\n        netPayable: 0,\n        sla: null\n    }\n};\n}\nelse{\n     bh.local.response = {\n        success: false,\n        message: \"Date of Loss must be between \" +\n                 bh.local.fetchResult[0].policy_start_date +\n                 \" and \" +\n                 bh.local.fetchResult[0].policy_end_date\n    };\n}",
+        "script": "if(bh.local.flag==1)\n{\nbh.local.response = {\n    success: true,\n    message: \"Claim registered successfully\",\n    data: {\n        claimId: bh.input.body.claim_id,\n        status: \"REGISTERED\",\n        netPayable: Number(bh.input.body.netPayable),\n        sla: 24\n    }\n};\n}\nelse{\n     bh.local.response = {\n        success: false,\n        message: \"Date of Loss must be between \" +\n                 bh.local.fetchResult[0].policy_start_date +\n                 \" and \" +\n                 bh.local.fetchResult[0].policy_end_date\n    };\n}",
         "functionName": "scriptForClaimRegister",
         "category": "Function",
-        "x": 525,
+        "x": 565,
         "y": 360,
         "wires": [
             [
-                "sd_xXyz8ep6LklEYU2g"
+                "sd_oQRXr74EptV0BoZD"
             ]
         ],
         "__n_excludedFromValidation__": {},
@@ -1086,8 +1085,8 @@
         },
         "functionName": "sd_lpJlbT6RVqBFWgWD",
         "category": "HTTP",
-        "x": 885,
-        "y": 360,
+        "x": 1265,
+        "y": 340,
         "wires": [],
         "__n_excludedFromValidation__": {},
         "generateNext": false,
@@ -1104,8 +1103,8 @@
         "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
         "functionName": "sd_EGBkvt88yMWK7vAK",
         "category": "Function",
-        "x": 785,
-        "y": 360,
+        "x": 1165,
+        "y": 340,
         "wires": [
             [
                 "sd_lpJlbT6RVqBFWgWD"
@@ -1133,8 +1132,8 @@
         "ignoreList": "",
         "functionName": "sd_C9cqXXv5vEWafq3n",
         "category": "General",
-        "x": 685,
-        "y": 360,
+        "x": 1085,
+        "y": 340,
         "wires": [
             [
                 "sd_EGBkvt88yMWK7vAK"
@@ -1795,6 +1794,384 @@
         "wires": [
             [
                 "sd_uC3fZQmn1Ry74e1P"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_oQRXr74EptV0BoZD",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "token creation",
+        "script": "\n\n// 1. Token Endpoint URL\nbh.local.tokenUrl = \"https://ids-ctr-pt.neutrinos-apps.com/token\";\n\n// 2. Headers\n// console.log(\"=============>>>>>before header\");\n// bh.local.headers = {\n//     \"Content-Type\": \"application/x-www-form-urlencoded\",\n//     \"Content-Length\": \"<calculated when request is sent>\",\n//     \"Host\": \"<calculated when request is sent>\",\n//     \"User-Agent\": \"PostmanRuntime/7.56.1\",\n//     \"Accept\": \"*/*\",\n//     \"Accept-Encoding\": \"gzip, deflate, br\",\n//     \"Connection\": \"keep-alive\"\n// };\nbh.local.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/json\"\n};\n\n// 3. Body (x-www-form-urlencoded format)\nconst params = new URLSearchParams();\nparams.append(\"client_id\", \"0ddh_euTKkSA682Yy5HuC\");\nparams.append(\"client_secret\", \"e28WZR6ZKyrYILTSKKClFEwNlYoGR2cvISwFCoIXP4S7DJgsaqhHRSNqpoWgYbcx_DUlrSkoA1zS5uFOzP-J9C\"); // Replace with complete secret\nparams.append(\"grant_type\", \"client_credentials\");\n\nbh.local.tokenBody = params.toString();\nconsole.log(\"=============>>>>>after header\");\n// Debug Log\nconsole.log(\"Token Request Body:\", bh.local.tokenBody);\n",
+        "functionName": "tokenCreation",
+        "category": "Function",
+        "x": 665,
+        "y": 360,
+        "wires": [
+            [
+                "sd_T8zfMMc3hCO1EerD"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_T8zfMMc3hCO1EerD",
+        "type": "ServerHttpRequest",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "method": "post",
+        "methodMappingObj": {},
+        "urlMapping": "bh.local.tokenUrl",
+        "urlMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "tokenUrl"
+        },
+        "ret": "json",
+        "retMappingObj": {},
+        "reqBody": "bh.local.tokenBody",
+        "reqBodyObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "tokenBody"
+        },
+        "resultMapping": "bh.local.tokenResult",
+        "resultMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "tokenResult"
+        },
+        "headerMapping": "bh.local.headers",
+        "headerMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "headers"
+        },
+        "params": {},
+        "paramsObj": [],
+        "paramMappingObj": {},
+        "useAuthTypeMappingObj": {},
+        "useAuthUsername": "",
+        "useAuthUsernameMappingObj": "",
+        "useAuthPassword": "",
+        "useAuthPasswordMappingObj": "",
+        "useAuthToken": "",
+        "useAuthTokenMappingObj": "",
+        "useQueryString": false,
+        "tls": "",
+        "followRedirect": true,
+        "paytoqs": false,
+        "useAuthentication": false,
+        "rejectUnauthorized": false,
+        "proxy": "",
+        "useProxy": false,
+        "usetls": false,
+        "cookiesMapObj": {},
+        "cookiesList": {},
+        "switchStates": {
+            "cookies": "Map"
+        },
+        "editableListData": {},
+        "timeout": {
+            "type": "num",
+            "value": ""
+        },
+        "functionName": "sd_T8zfMMc3hCO1EerD",
+        "category": "HTTP",
+        "x": 765,
+        "y": 360,
+        "wires": [
+            [
+                "sd_O1sDrjng07a9vWEJ"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_QNoMWebK5lCffiL4",
+        "type": "ServerHttpRequest",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "method": "post",
+        "methodMappingObj": {},
+        "urlMapping": "bh.local.caseUrl",
+        "urlMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "caseUrl"
+        },
+        "ret": "json",
+        "retMappingObj": {},
+        "reqBody": "bh.local.caseBody",
+        "reqBodyObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "caseBody"
+        },
+        "resultMapping": "bh.local.caseResult",
+        "resultMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "caseResult"
+        },
+        "headerMapping": "bh.local.bpmHeader",
+        "headerMappingObj": {
+            "mapVarType": "bh.local",
+            "mapVarValue": "bpmHeader"
+        },
+        "params": {},
+        "paramsObj": [],
+        "paramMappingObj": {},
+        "useAuthTypeMappingObj": {},
+        "useAuthUsername": "",
+        "useAuthUsernameMappingObj": "",
+        "useAuthPassword": "",
+        "useAuthPasswordMappingObj": "",
+        "useAuthToken": "",
+        "useAuthTokenMappingObj": "",
+        "useQueryString": false,
+        "tls": "",
+        "followRedirect": true,
+        "paytoqs": false,
+        "useAuthentication": false,
+        "rejectUnauthorized": false,
+        "proxy": "",
+        "useProxy": false,
+        "usetls": false,
+        "cookiesMapObj": {},
+        "cookiesList": {},
+        "switchStates": {
+            "cookies": "Map"
+        },
+        "editableListData": {},
+        "timeout": {
+            "type": "num",
+            "value": ""
+        },
+        "functionName": "sd_QNoMWebK5lCffiL4",
+        "category": "HTTP",
+        "x": 925,
+        "y": 360,
+        "wires": [
+            [
+                "sd_xXyz8ep6LklEYU2g"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_O1sDrjng07a9vWEJ",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "bpm call",
+        "script": "// 1. Target Endpoint URL\nbh.local.token=bh.local.tokenResult.payload.access_token;\n//console.log(\"===============>token=======================>\",bh.local.toke)\nconsole.log(\"===============>token=======================>\",bh.local.tokenResult.payload.access_token);\n\nbh.local.caseUrl = \"https://alpha-pt.neutrinos-apps.com/caseservice/case/instance/create?branch=main\";\n\n// 2. Request Headers (as shown in Postman)\n// bh.local.headers = {\n//     \"accept\": \"application/json\",\n//     \"Content-Type\": \"application/json\",\n//     \"Authorization\": \"Bearer nqHeehdeVmv4_iv6JwN8xWiYSiCSiDoZg8il90OcUaN\"\n// };\n\n// 3. Request Payload (Body)\n// Dynamic mapping from page and bh.local\nconst claimData = {\n    \"claim_id\": bh.input.body.claim_id || \"\",\n    \"policy_number\": bh.input.body.policy_no || \"\",\n    \"customerName\": bh.input.body[\"Customer Name\"] || \"\",\n    \"vehicleRegistration\": bh.input.body[\"Registration Number\"] || \"\",\n    \"vehicleType\": bh.input.body[\"Vehicle Type\"] || \"\",\n    \"idv\": Number(bh.input.body[\"IDV\"] || 0),\n    \"date_of_loss\": bh.input.body.date_of_loss || \"\",\n    \"intimationDate\": bh.input.body.intimationDate || \"\",\n    \"lossType\": bh.input.body.loss_code || \"\",\n    \"part_group_code\": bh.input.body.part_group_code || \"\",\n    \"estimatedPartsCost\": Number(bh.input.body.estimated_parts_cost || 0),\n    \"garageType\": bh.input.body.garage_type || \"\",\n    \"netPayable\": Number(bh.input.body.netPayable || 0),\n    \"fire_file\": String(Boolean(bh.input.body.fir_filed))\n};\n\nconsole.log(\"api body------->\", claimData);\n\n// Final Payload Construction\nbh.local.caseBody = {\n    \"caseType\": \"motor-damage-claim\",\n    \"caseData\": claimData,\n    \"wfData\": claimData\n};\n\nconsole.log(\"Dynamic Payload:\", bh.local.caseBody);\n// Debug Log\nconsole.log(\"Case Service Payload:\", bh.local.caseBody);\n\nconsole.log(\"token----------->\", bh.local.token)\n// bh.local.bpmHeader = {\n//     \"Content-Type\": \"application/x-www-form-urlencoded\",\n//     \"Content-Length\": \"<calculated when request is sent>\",\n//     \"Host\": \"<calculated when request is sent>\",\n//     \"User-Agent\": \"PostmanRuntime/7.56.1\",\n//     \"Accept\": \"*/*\",\n//     \"Accept-Encoding\": \"gzip, deflate, br\",\n//     \"Connection\": \"keep-alive\",\n//     \"Authorization\": \"Bearer \" + bh.local.token\n// };\nbh.local.bpmHeader = {\n    \"Content-Type\": \"application/json\",\n    \"Accept\": \"application/json\",\n    \"Authorization\": \"Bearer \" + bh.local.token\n};",
+        "functionName": "bpmCall",
+        "category": "Function",
+        "x": 845,
+        "y": 360,
+        "wires": [
+            [
+                "sd_QNoMWebK5lCffiL4"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_fnk95lz3fLrOKHC2",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": " HTTP Out",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "httpOut",
+        "category": "HTTP",
+        "x": 825,
+        "y": 1060,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_r9ojCBxBZ43Nf5ju",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "caseForAutosettle",
+        "path": "/autosettle/:claimId",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "post",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 365,
+        "y": 1060,
+        "wires": [
+            [
+                "sd_RyaO1cY5cxrQTY6l"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_r9ojCBxBZ43Nf5ju"
+    },
+    {
+        "id": "sd_RyaO1cY5cxrQTY6l",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "Prepare_Case_Payload",
+        "script": "bh.local.claimStatus = \"SETTLED\";\nlet year = new Date().getFullYear();\nlet sequence = Math.floor(100000 + Math.random() * 900000);\n\nbh.local.settlementRef = `STL-${year}-${sequence}`;\n// 2. Direct Postgres DB Update query parameterize karein\nbh.local.updateQuery = `\n    UPDATE motor_claims.claims\n    SET \n        status = '${bh.local.claimStatus}',\n        settlement_ref = '${bh.local.settlementRef}',\n        updated_at = NOW()\n    WHERE claim_id = '${bh.input.params.claimId}';\n`;\n\n//console.log(`Claim ${bh.local.claimId} auto-settled with Ref: ${bh.local.settlementRef}`);",
+        "functionName": "prepareCasePayload",
+        "category": "Function",
+        "x": 485,
+        "y": 1060,
+        "wires": [
+            [
+                "sd_aO2oT6kuQvg32iWS"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_fNKSLQB3VN88oPRM",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "",
+        "functionName": "sd_fNKSLQB3VN88oPRM",
+        "category": "Function",
+        "x": 705,
+        "y": 1060,
+        "wires": [
+            [
+                "sd_fnk95lz3fLrOKHC2"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_aO2oT6kuQvg32iWS",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "updateQuery"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "dbType": "postgres",
+        "functionName": "sd_aO2oT6kuQvg32iWS",
+        "category": "Storage",
+        "x": 585,
+        "y": 1060,
+        "wires": [
+            [
+                "sd_fNKSLQB3VN88oPRM"
             ]
         ],
         "__n_excludedFromValidation__": {},

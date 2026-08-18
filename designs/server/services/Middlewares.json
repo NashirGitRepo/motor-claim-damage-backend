@@ -85,14 +85,20 @@
                     "type": "str"
                 },
                 {
-                    "key": "localhost:4200/",
+                    "key": "http://localhost:4200",
                     "rowId": "sd_yjRSTFeSsjQTJN58",
                     "valid": true,
                     "type": "str"
                 },
                 {
-                    "key": "https://motorclaimnashir.neutrinos-apps.com/api",
+                    "key": "https://motorclaimnashir.neutrinos-apps.com",
                     "rowId": "sd_BJyf3U6QNoDS6c2W",
+                    "valid": true,
+                    "type": "str"
+                },
+                {
+                    "key": "https://motordamageclaimbackend.neutrinos-apps.com",
+                    "rowId": "sd_mnpK5ESek1MSQNAG",
                     "valid": true,
                     "type": "str"
                 }
