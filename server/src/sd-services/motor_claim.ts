@@ -339,6 +339,38 @@ export class motor_claim {
         this.generatedMiddlewares
       )
     );
+
+    this.app['get'](
+      `${this.serviceBasePath}/status/:policyNo`,
+      cookieParser(),
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'pre',
+        this.generatedMiddlewares
+      ),
+
+      async (req, res, next) => {
+        let bh: any = {};
+        try {
+          bh = this.sdService.__constructDefault(
+            { local: {}, input: {} },
+            req,
+            res,
+            next
+          );
+          let parentSpanInst = null;
+          bh = await this.sd_r83hE1V7HNcX5MHd(bh, parentSpanInst);
+          //appendnew_next_sd_ZqD2kwXu0AjWuuLa
+        } catch (e) {
+          return await this.errorHandler(bh, e, 'sd_ZqD2kwXu0AjWuuLa');
+        }
+      },
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'post',
+        this.generatedMiddlewares
+      )
+    );
     //appendnew_flow_motor_claim_HttpIn
   }
   //   service flows_motor_claim
@@ -876,7 +908,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         method: 'post',
         headers: bh.local.headers,
         followRedirects: true,
-        cookies: undefined,
+        cookies: {},
         authType: undefined,
         body: bh.local.tokenBody,
         paytoqs: false,
@@ -1013,7 +1045,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         method: 'post',
         headers: bh.local.bpmHeader,
         followRedirects: true,
-        cookies: undefined,
+        cookies: {},
         authType: undefined,
         body: bh.local.caseBody,
         paytoqs: false,
@@ -1727,7 +1759,7 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.result = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -1777,6 +1809,107 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_fnk95lz3fLrOKHC2');
+    }
+  }
+
+  async sd_r83hE1V7HNcX5MHd(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_r83hE1V7HNcX5MHd',
+      parentSpanInst
+    );
+    try {
+      bh.local.query = `
+SELECT
+    status
+FROM motor_claims.policies
+WHERE policy_no = '${bh.input.params.policyNo}';
+`;
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_E4pfXMxC1AdwNRtE(bh, parentSpanInst);
+      //appendnew_next_sd_r83hE1V7HNcX5MHd
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_r83hE1V7HNcX5MHd',
+        spanInst,
+        'sd_r83hE1V7HNcX5MHd'
+      );
+    }
+  }
+
+  async sd_E4pfXMxC1AdwNRtE(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_E4pfXMxC1AdwNRtE',
+      parentSpanInst
+    );
+    try {
+      let configObj = this.sdService.getConfigObj(
+        'db-config',
+        'sd_c89k8zRbF9ofE0PK'
+      );
+      let connectionName;
+      if (
+        configObj &&
+        configObj.hasOwnProperty('dbOption') &&
+        configObj.dbOption.hasOwnProperty('name')
+      ) {
+        connectionName = configObj.dbOption.name;
+      } else {
+        throw new Error('Cannot find the selected config name');
+      }
+      let params = [];
+      params = params ? params : [];
+      bh.local.result = await new GenericRDBMSOperations().executeSQL(
+        connectionName,
+        bh.local.query,
+        params
+      );
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_q0QNohqmN3gc5Hqz(bh, parentSpanInst);
+      //appendnew_next_sd_E4pfXMxC1AdwNRtE
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_E4pfXMxC1AdwNRtE',
+        spanInst,
+        'sd_E4pfXMxC1AdwNRtE'
+      );
+    }
+  }
+
+  async sd_q0QNohqmN3gc5Hqz(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_q0QNohqmN3gc5Hqz',
+      parentSpanInst
+    );
+    try {
+      bh.local.checkStatus = bh.local.result[0].status;
+      this.tracerService.sendData(spanInst, bh);
+      await this.sd_KYQwyd8jYXTITUHx(bh, parentSpanInst);
+      //appendnew_next_sd_q0QNohqmN3gc5Hqz
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_q0QNohqmN3gc5Hqz',
+        spanInst,
+        'sd_q0QNohqmN3gc5Hqz'
+      );
+    }
+  }
+
+  async sd_KYQwyd8jYXTITUHx(bh, parentSpanInst) {
+    try {
+      bh.web.res.status(200).send(bh.local.checkStatus);
+
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_KYQwyd8jYXTITUHx');
     }
   }
 

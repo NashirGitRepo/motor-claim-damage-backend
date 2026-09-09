@@ -100,5 +100,18 @@
                 "motor_claim"
             ]
         }
+    },
+    "/status/:policyNo": {
+        "get": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
     }
 }

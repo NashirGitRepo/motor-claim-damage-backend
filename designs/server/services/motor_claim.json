@@ -488,6 +488,7 @@
             "send": "bh.local.response"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -1831,6 +1832,7 @@
         "nodeType": "flow",
         "name": "",
         "method": "post",
+        "methodMapping": "",
         "methodMappingObj": {},
         "urlMapping": "bh.local.tokenUrl",
         "urlMappingObj": {
@@ -1838,6 +1840,7 @@
             "mapVarValue": "tokenUrl"
         },
         "ret": "json",
+        "retMapping": "",
         "retMappingObj": {},
         "reqBody": "bh.local.tokenBody",
         "reqBodyObj": {
@@ -1849,6 +1852,8 @@
             "mapVarType": "bh.local",
             "mapVarValue": "tokenResult"
         },
+        "headers": [],
+        "headersObj": {},
         "headerMapping": "bh.local.headers",
         "headerMappingObj": {
             "mapVarType": "bh.local",
@@ -1856,8 +1861,12 @@
         },
         "params": {},
         "paramsObj": [],
+        "paramMapping": "",
         "paramMappingObj": {},
+        "authType": "",
         "useAuthTypeMappingObj": {},
+        "useAuthTypeMap": {},
+        "useAuthType": "",
         "useAuthUsername": "",
         "useAuthUsernameMappingObj": "",
         "useAuthPassword": "",
@@ -1873,6 +1882,7 @@
         "proxy": "",
         "useProxy": false,
         "usetls": false,
+        "cookies": [],
         "cookiesMapObj": {},
         "cookiesList": {},
         "switchStates": {
@@ -1905,6 +1915,7 @@
         "nodeType": "flow",
         "name": "",
         "method": "post",
+        "methodMapping": "",
         "methodMappingObj": {},
         "urlMapping": "bh.local.caseUrl",
         "urlMappingObj": {
@@ -1912,6 +1923,7 @@
             "mapVarValue": "caseUrl"
         },
         "ret": "json",
+        "retMapping": "",
         "retMappingObj": {},
         "reqBody": "bh.local.caseBody",
         "reqBodyObj": {
@@ -1923,6 +1935,8 @@
             "mapVarType": "bh.local",
             "mapVarValue": "caseResult"
         },
+        "headers": [],
+        "headersObj": {},
         "headerMapping": "bh.local.bpmHeader",
         "headerMappingObj": {
             "mapVarType": "bh.local",
@@ -1930,8 +1944,12 @@
         },
         "params": {},
         "paramsObj": [],
+        "paramMapping": "",
         "paramMappingObj": {},
+        "authType": "",
         "useAuthTypeMappingObj": {},
+        "useAuthTypeMap": {},
+        "useAuthType": "",
         "useAuthUsername": "",
         "useAuthUsernameMappingObj": "",
         "useAuthPassword": "",
@@ -1947,6 +1965,7 @@
         "proxy": "",
         "useProxy": false,
         "usetls": false,
+        "cookies": [],
         "cookiesMapObj": {},
         "cookiesList": {},
         "switchStates": {
@@ -2019,6 +2038,7 @@
             "send": "bh.local.result"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -2064,6 +2084,7 @@
         "acceptFileUpload": false,
         "useDataModel": false,
         "dataModelIsArray": false,
+        "uploadFileOptions": "",
         "erd": "",
         "erdName": "",
         "entity": "",
@@ -2152,6 +2173,7 @@
         "nodeType": "flow",
         "name": "",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "result"
@@ -2164,6 +2186,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "sd_aO2oT6kuQvg32iWS",
         "category": "Storage",
@@ -2172,6 +2195,192 @@
         "wires": [
             [
                 "sd_fNKSLQB3VN88oPRM"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_ZqD2kwXu0AjWuuLa",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "check policy active",
+        "path": "/status/:policyNo",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "get",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 165,
+        "y": 1180,
+        "wires": [
+            [
+                "sd_r83hE1V7HNcX5MHd"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_ZqD2kwXu0AjWuuLa"
+    },
+    {
+        "id": "sd_r83hE1V7HNcX5MHd",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "bh.local.query = `\nSELECT\n    status\nFROM motor_claims.policies\nWHERE policy_no = '${bh.input.params.policyNo}';\n`;",
+        "functionName": "sd_r83hE1V7HNcX5MHd",
+        "category": "Function",
+        "x": 285,
+        "y": 1180,
+        "wires": [
+            [
+                "sd_E4pfXMxC1AdwNRtE"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_E4pfXMxC1AdwNRtE",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "dbType": "postgres",
+        "functionName": "sd_E4pfXMxC1AdwNRtE",
+        "category": "Storage",
+        "x": 385,
+        "y": 1180,
+        "wires": [
+            [
+                "sd_q0QNohqmN3gc5Hqz"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_KYQwyd8jYXTITUHx",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "checkStatus",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.checkStatus",
+            "send": "bh.local.checkStatus"
+        },
+        "dataModelIsArray": false,
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_KYQwyd8jYXTITUHx",
+        "category": "HTTP",
+        "x": 645,
+        "y": 1180,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_q0QNohqmN3gc5Hqz",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "bh.local.checkStatus=bh.local.result[0].status;",
+        "functionName": "sd_q0QNohqmN3gc5Hqz",
+        "category": "Function",
+        "x": 485,
+        "y": 1180,
+        "wires": [
+            [
+                "sd_KYQwyd8jYXTITUHx"
             ]
         ],
         "__n_excludedFromValidation__": {},
