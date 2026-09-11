@@ -984,7 +984,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         vehicleType: bh.input.body['Vehicle Type'] || '',
         idv: Number(bh.input.body['IDV'] || 0),
         date_of_loss: bh.input.body.date_of_loss || '',
-        intimationDate: bh.input.body.intimationDate || '',
+        intimationDate: new Date().toISOString().split('T')[0],
         lossType: bh.input.body.loss_code || '',
         part_group_code: bh.input.body.part_group_code || '',
         estimatedPartsCost: Number(bh.input.body.estimated_parts_cost || 0),
@@ -1180,27 +1180,61 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       parentSpanInst
     );
     try {
-      switch (bh.input.body.action) {
+      var b = bh.input.body; // Short alias for clean body access
+      var action = b.action;
+      var claimId = bh.input.params.claimId;
+
+      // Safe strings extraction
+      var remark = (b.remark || '').replace(/'/g, "''");
+      var deductionTrace =
+        typeof b.deduction_trace === 'object'
+          ? JSON.stringify(b.deduction_trace)
+          : b.deduction_trace || '{}';
+
+      // Safe numbers extraction
+      var depreciatedParts = Number(b.depreciated_parts) || 0;
+      var labourCost = Number(b.labour_cost) || 0;
+      var grossAssessed = Number(b.gross_assessed) || 0;
+      var systemNetPayable =
+        Number(b.system_net_payable) || Number(b.netPayable) || 0;
+
+      switch (action) {
         case 'CONFIRM':
+          var isManagerReq = Boolean(b.isManagerReq);
+          var targetStatus = isManagerReq ? 'MANAGER_APPROVAL' : 'SETTLED';
+
           bh.local.query = `
         UPDATE motor_claims.claims
         SET
-            surveyor_remarks = '${bh.input.body.remark}',
-            status = 'MANAGER_APPROVAL',
+            depreciated_parts = ${depreciatedParts},
+            labour_cost = ${labourCost},
+            gross_assessed = ${grossAssessed},
+            system_net_payable = ${systemNetPayable},
+            surveyor_net_payable = ${systemNetPayable},
+            deduction_trace = '${deductionTrace}',
+            surveyor_remarks = '${remark}',
+            status = '${targetStatus}',
             updated_at = NOW()
-        WHERE claim_id = '${bh.input.params.claimId}';
+        WHERE claim_id = '${claimId}';
         `;
           break;
 
         case 'REVISE':
+          var revisedNetPayable = Number(b.revised_net_payable) || 0;
+
           bh.local.query = `
         UPDATE motor_claims.claims
         SET
-            surveyor_net_payable = ${bh.input.body.revised_net_payable},
-            surveyor_remarks = '${bh.input.body.remark}',
+            depreciated_parts = ${depreciatedParts},
+            labour_cost = ${labourCost},
+            gross_assessed = ${grossAssessed},
+            system_net_payable = ${systemNetPayable},
+            surveyor_net_payable = ${revisedNetPayable},
+            deduction_trace = '${deductionTrace}',
+            surveyor_remarks = '${remark}',
             status = 'MANAGER_APPROVAL',
             updated_at = NOW()
-        WHERE claim_id = '${bh.input.params.claimId}';
+        WHERE claim_id = '${claimId}';
         `;
           break;
 
@@ -1208,12 +1242,21 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           bh.local.query = `
         UPDATE motor_claims.claims
         SET
-            surveyor_remarks = '${bh.input.body.remark}',
+            depreciated_parts = ${depreciatedParts},
+            labour_cost = ${labourCost},
+            gross_assessed = ${grossAssessed},
+            system_net_payable = ${systemNetPayable},
+            surveyor_net_payable = 0.00,
+            deduction_trace = '${deductionTrace}',
+            surveyor_remarks = '${remark}',
             status = 'REPUDIATED',
             updated_at = NOW()
-        WHERE claim_id = '${bh.input.params.claimId}';
+        WHERE claim_id = '${claimId}';
         `;
           break;
+
+        default:
+          throw new Error('Invalid Surveyor Action: ' + action);
       }
       this.tracerService.sendData(spanInst, bh);
       bh = await this.sqlForSurveyerAction(bh, parentSpanInst);
@@ -1288,22 +1331,79 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       parentSpanInst
     );
     try {
-      // Generate Settlement Reference
-      let year = new Date().getFullYear();
-      let sequence = Math.floor(100000 + Math.random() * 900000);
+      // // Generate Settlement Reference
+      // let year = new Date().getFullYear();
+      // let sequence = Math.floor(100000 + Math.random() * 900000);
 
+      // bh.local.settlementRef = `STL-${year}-${sequence}`;
+
+      // switch (bh.input.body.action) {
+
+      //     case "APPROVE":
+
+      //         bh.local.query = `
+      //         UPDATE motor_claims.claims
+      //         SET
+      //             manager_remarks = '${bh.input.body.remark}',
+      //             settlement_ref = '${bh.local.settlementRef}',
+      //             status = 'SETTLED',
+      //             updated_at = NOW()
+      //         WHERE claim_id = '${bh.input.params.claimId}';
+      //         `;
+      //         break;
+
+      //     case "REJECT":
+
+      //         bh.local.query = `
+      //         UPDATE motor_claims.claims
+      //         SET
+      //             manager_remarks = '${bh.input.body.remark}',
+      //             status = 'REJECTED',
+      //             updated_at = NOW()
+      //         WHERE claim_id = '${bh.input.params.claimId}';
+      //         `;
+      //         break;
+      // }
+      var b = bh.input.body;
+      var action = b.action;
+      var claimId = bh.input.params.claimId;
+
+      // Safe strings extraction
+      var remark = (b.remark || '').replace(/'/g, "''");
+      var deductionTrace =
+        typeof b.deduction_trace === 'object'
+          ? JSON.stringify(b.deduction_trace)
+          : b.deduction_trace || '{}';
+
+      // Safe numbers extraction (Body se poora breakdown extract ho raha hai)
+      var depreciatedParts = Number(b.depreciated_parts) || 0;
+      var labourCost = Number(b.labour_cost) || 0;
+      var grossAssessed = Number(b.gross_assessed) || 0;
+      var systemNetPayable =
+        Number(b.system_net_payable) || Number(b.netPayable) || 0;
+      var surveyorNetPayable = Number(b.surveyor_net_payable) || 0;
+
+      // Generate Settlement Reference
+      var year = new Date().getFullYear();
+      var sequence = Math.floor(100000 + Math.random() * 900000);
       bh.local.settlementRef = `STL-${year}-${sequence}`;
 
-      switch (bh.input.body.action) {
+      switch (action) {
         case 'APPROVE':
           bh.local.query = `
         UPDATE motor_claims.claims
         SET
-            manager_remarks = '${bh.input.body.remark}',
+            depreciated_parts = ${depreciatedParts},
+            labour_cost = ${labourCost},
+            gross_assessed = ${grossAssessed},
+            system_net_payable = ${systemNetPayable},
+            surveyor_net_payable = ${surveyorNetPayable},
+            deduction_trace = '${deductionTrace}',
+            manager_remarks = '${remark}',
             settlement_ref = '${bh.local.settlementRef}',
             status = 'SETTLED',
             updated_at = NOW()
-        WHERE claim_id = '${bh.input.params.claimId}';
+        WHERE claim_id = '${claimId}';
         `;
           break;
 
@@ -1311,12 +1411,21 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           bh.local.query = `
         UPDATE motor_claims.claims
         SET
-            manager_remarks = '${bh.input.body.remark}',
+            depreciated_parts = ${depreciatedParts},
+            labour_cost = ${labourCost},
+            gross_assessed = ${grossAssessed},
+            system_net_payable = ${systemNetPayable},
+            surveyor_net_payable = ${surveyorNetPayable},
+            deduction_trace = '${deductionTrace}',
+            manager_remarks = '${remark}',
             status = 'REJECTED',
             updated_at = NOW()
-        WHERE claim_id = '${bh.input.params.claimId}';
+        WHERE claim_id = '${claimId}';
         `;
           break;
+
+        default:
+          throw new Error('Invalid Manager Action: ' + action);
       }
       this.tracerService.sendData(spanInst, bh);
       bh = await this.sqlForManagerAction(bh, parentSpanInst);
