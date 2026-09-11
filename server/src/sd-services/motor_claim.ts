@@ -1184,24 +1184,50 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       var action = b.action;
       var claimId = bh.input.params.claimId;
 
-      // Safe strings extraction
+      // 1. Safe strings extraction
       var remark = (b.remark || '').replace(/'/g, "''");
-      var deductionTrace =
-        typeof b.deduction_trace === 'object'
-          ? JSON.stringify(b.deduction_trace)
-          : b.deduction_trace || '{}';
 
-      // Safe numbers extraction
-      var depreciatedParts = Number(b.depreciated_parts) || 0;
-      var labourCost = Number(b.labour_cost) || 0;
-      var grossAssessed = Number(b.gross_assessed) || 0;
+      // 2. Settlement Reference Generator (STL-YYYY-XXXXXX)
+      var year = new Date().getFullYear();
+      var sequence = Math.floor(100000 + Math.random() * 900000);
+      var settlementRef = `STL-${year}-${sequence}`;
+
+      // 3. Dynamic deduction_trace parser
+      var deductionTrace = '{}';
+      if (b.deduction_trace) {
+        if (typeof b.deduction_trace === 'object') {
+          deductionTrace = JSON.stringify(b.deduction_trace);
+        } else if (typeof b.deduction_trace === 'string') {
+          deductionTrace = b.deduction_trace.replace(/\\"/g, '"');
+        }
+      }
+      deductionTrace = deductionTrace.replace(/'/g, "''");
+
+      // 4. Robust Number Extraction (snake_case + camelCase)
+      var depreciatedParts =
+        Number(b.depreciated_parts) ||
+        Number(b.depParts) ||
+        Number(b.depreciatedParts) ||
+        0;
+      var labourCost = Number(b.labour_cost) || Number(b.labourCost) || 0;
+      var grossAssessed =
+        Number(b.gross_assessed) ||
+        Number(b.grossAssessed) ||
+        Number(b.grossAssesed) ||
+        0;
       var systemNetPayable =
-        Number(b.system_net_payable) || Number(b.netPayable) || 0;
+        Number(b.system_net_payable) ||
+        Number(b.netPayable) ||
+        Number(b.systemNetPayable) ||
+        0;
 
       switch (action) {
         case 'CONFIRM':
-          var isManagerReq = Boolean(b.isManagerReq);
+          var isManagerReq = String(b.isManagerReq).toLowerCase() === 'true';
           var targetStatus = isManagerReq ? 'MANAGER_APPROVAL' : 'SETTLED';
+
+          // Agar Direct Settle ho raha hai tabhi settlement_ref set hoga, warna null/empty rahega manager approval tak
+          var settlementRefVal = !isManagerReq ? `'${settlementRef}'` : 'NULL';
 
           bh.local.query = `
         UPDATE motor_claims.claims
@@ -1213,6 +1239,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
             surveyor_net_payable = ${systemNetPayable},
             deduction_trace = '${deductionTrace}',
             surveyor_remarks = '${remark}',
+            settlement_ref = ${settlementRefVal},
             status = '${targetStatus}',
             updated_at = NOW()
         WHERE claim_id = '${claimId}';
@@ -1220,7 +1247,8 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           break;
 
         case 'REVISE':
-          var revisedNetPayable = Number(b.revised_net_payable) || 0;
+          var revisedNetPayable =
+            Number(b.revised_net_payable) || Number(b.revisedNetPayable) || 0;
 
           bh.local.query = `
         UPDATE motor_claims.claims
