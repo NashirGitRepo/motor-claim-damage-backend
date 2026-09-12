@@ -371,6 +371,38 @@ export class motor_claim {
         this.generatedMiddlewares
       )
     );
+
+    this.app['get'](
+      `${this.serviceBasePath}/findNetPayable/:claimId`,
+      cookieParser(),
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'pre',
+        this.generatedMiddlewares
+      ),
+
+      async (req, res, next) => {
+        let bh: any = {};
+        try {
+          bh = this.sdService.__constructDefault(
+            { local: {}, input: {} },
+            req,
+            res,
+            next
+          );
+          let parentSpanInst = null;
+          bh = await this.findNetPayable(bh, parentSpanInst);
+          //appendnew_next_sd_MJ5QqpEUs1ASueT3
+        } catch (e) {
+          return await this.errorHandler(bh, e, 'sd_MJ5QqpEUs1ASueT3');
+        }
+      },
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'post',
+        this.generatedMiddlewares
+      )
+    );
     //appendnew_flow_motor_claim_HttpIn
   }
   //   service flows_motor_claim
@@ -790,7 +822,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         params
       );
       this.tracerService.sendData(spanInst, bh);
-      bh = await this.scriptForClaimRegister(bh, parentSpanInst);
+      bh = await this.tokenCreation(bh, parentSpanInst);
       //appendnew_next_sqlForClaim
       return bh;
     } catch (e) {
@@ -800,48 +832,6 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         'sd_seWkDaFVCimBM1tg',
         spanInst,
         'sqlForClaim'
-      );
-    }
-  }
-
-  async scriptForClaimRegister(bh, parentSpanInst) {
-    const spanInst = this.tracerService.createSpan(
-      'scriptForClaimRegister',
-      parentSpanInst
-    );
-    try {
-      if (bh.local.flag == 1) {
-        bh.local.response = {
-          success: true,
-          message: 'Claim registered successfully',
-          data: {
-            claimId: bh.input.body.claim_id,
-            status: 'REGISTERED',
-            netPayable: Number(bh.input.body.netPayable),
-            sla: 24,
-          },
-        };
-      } else {
-        bh.local.response = {
-          success: false,
-          message:
-            'Date of Loss must be between ' +
-            bh.local.fetchResult[0].policy_start_date +
-            ' and ' +
-            bh.local.fetchResult[0].policy_end_date,
-        };
-      }
-      this.tracerService.sendData(spanInst, bh);
-      bh = await this.tokenCreation(bh, parentSpanInst);
-      //appendnew_next_scriptForClaimRegister
-      return bh;
-    } catch (e) {
-      return await this.errorHandler(
-        bh,
-        e,
-        'sd_lSRRMA0laK1eOGk0',
-        spanInst,
-        'scriptForClaimRegister'
       );
     }
   }
@@ -1045,7 +1035,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         method: 'post',
         headers: bh.local.bpmHeader,
         followRedirects: true,
-        cookies: {},
+        cookies: undefined,
         authType: undefined,
         body: bh.local.caseBody,
         paytoqs: false,
@@ -1082,11 +1072,52 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       );
 
       bh.local.caseResult = responseMsg;
-      await this.sd_xXyz8ep6LklEYU2g(bh, parentSpanInst);
+      bh = await this.scriptForClaimRegister(bh, parentSpanInst);
       //appendnew_next_sd_QNoMWebK5lCffiL4
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_QNoMWebK5lCffiL4');
+    }
+  }
+
+  async scriptForClaimRegister(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'scriptForClaimRegister',
+      parentSpanInst
+    );
+    try {
+      if (bh.local.flag == 1) {
+        bh.local.response = {
+          success: true,
+          message: 'Claim registered successfully',
+          data: {
+            claimId: bh.input.body.claim_id,
+            status: 'REGISTERED',
+            sla: 24,
+          },
+        };
+      } else {
+        bh.local.response = {
+          success: false,
+          message:
+            'Date of Loss must be between ' +
+            bh.local.fetchResult[0].policy_start_date +
+            ' and ' +
+            bh.local.fetchResult[0].policy_end_date,
+        };
+      }
+      this.tracerService.sendData(spanInst, bh);
+      await this.sd_xXyz8ep6LklEYU2g(bh, parentSpanInst);
+      //appendnew_next_scriptForClaimRegister
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_FAfO0Xx07ICV9JZ4',
+        spanInst,
+        'scriptForClaimRegister'
+      );
     }
   }
 
@@ -2047,6 +2078,125 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_KYQwyd8jYXTITUHx');
+    }
+  }
+
+  async findNetPayable(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'findNetPayable',
+      parentSpanInst
+    );
+    try {
+      var claimId = bh.input.params.claimId;
+
+      bh.local.query = `
+    SELECT surveyor_net_payable 
+    FROM motor_claims.claims 
+    WHERE claim_id = '${claimId}';
+`;
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_Z315JeQpRRrFfFGb(bh, parentSpanInst);
+      //appendnew_next_findNetPayable
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_hhypoi0dOhDB9bzf',
+        spanInst,
+        'findNetPayable'
+      );
+    }
+  }
+
+  async sd_Z315JeQpRRrFfFGb(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_Z315JeQpRRrFfFGb',
+      parentSpanInst
+    );
+    try {
+      let configObj = this.sdService.getConfigObj(
+        'db-config',
+        'sd_c89k8zRbF9ofE0PK'
+      );
+      let connectionName;
+      if (
+        configObj &&
+        configObj.hasOwnProperty('dbOption') &&
+        configObj.dbOption.hasOwnProperty('name')
+      ) {
+        connectionName = configObj.dbOption.name;
+      } else {
+        throw new Error('Cannot find the selected config name');
+      }
+      let params = [];
+      params = params ? params : [];
+      bh.local.netPayableResult = await new GenericRDBMSOperations().executeSQL(
+        connectionName,
+        bh.local.query,
+        params
+      );
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_dn12DuzeAqYoI4eL(bh, parentSpanInst);
+      //appendnew_next_sd_Z315JeQpRRrFfFGb
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_Z315JeQpRRrFfFGb',
+        spanInst,
+        'sd_Z315JeQpRRrFfFGb'
+      );
+    }
+  }
+
+  async sd_dn12DuzeAqYoI4eL(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_dn12DuzeAqYoI4eL',
+      parentSpanInst
+    );
+    try {
+      // Array check aur object key extraction
+      console.log(
+        'Extracted Integer bh.local.netPayableResult <=======================>:',
+        bh.local.netPayableResult
+      );
+      if (bh.local.netPayableResult && bh.local.netPayableResult.length > 0) {
+        // Single Integer value assignment
+        bh.local.netPayable =
+          Number(bh.local.netPayableResult[0].surveyor_net_payable) || 0;
+      } else {
+        bh.local.netPayable = 0;
+      }
+
+      console.log(
+        'Extracted Integer Net Payable<==============>:',
+        bh.local.netPayable
+      );
+
+      this.tracerService.sendData(spanInst, bh);
+      await this.sd_KUdaly6IhT2gf2qD(bh, parentSpanInst);
+      //appendnew_next_sd_dn12DuzeAqYoI4eL
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_dn12DuzeAqYoI4eL',
+        spanInst,
+        'sd_dn12DuzeAqYoI4eL'
+      );
+    }
+  }
+
+  async sd_KUdaly6IhT2gf2qD(bh, parentSpanInst) {
+    try {
+      bh.web.res.status(200).send(bh.local.netPayableResult);
+
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_KUdaly6IhT2gf2qD');
     }
   }
 
