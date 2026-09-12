@@ -1876,22 +1876,88 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       parentSpanInst
     );
     try {
-      bh.local.claimStatus = 'SETTLED';
-      let year = new Date().getFullYear();
-      let sequence = Math.floor(100000 + Math.random() * 900000);
+      // bh.local.claimStatus = "SETTLED";
+      // let year = new Date().getFullYear();
+      // let sequence = Math.floor(100000 + Math.random() * 900000);
 
+      // bh.local.settlementRef = `STL-${year}-${sequence}`;
+      // // 2. Direct Postgres DB Update query parameterize karein
+      // bh.local.updateQuery = `
+      //     UPDATE motor_claims.claims
+      //     SET
+      //         status = '${bh.local.claimStatus}',
+      //         settlement_ref = '${bh.local.settlementRef}',
+      //         updated_at = NOW()
+      //     WHERE claim_id = '${bh.input.params.claimId}';
+      // `;
+
+      // //console.log(`Claim ${bh.local.claimId} auto-settled with Ref: ${bh.local.settlementRef}`);
+      // 1. Target ID Extraction
+      var claimId =
+        bh.input.params?.claimId ||
+        bh.input.body?.claim_id ||
+        bh.input.body?.claimId;
+
+      // 2. Body Payload + Process Fallbacks (Handles camelCase & snake_case)
+      var body = bh.input.body || {};
+
+      var netPayable = Number(
+        body.netPayable ||
+          body.system_net_payable ||
+          body.net_payable ||
+          bh.local.netPayable ||
+          0
+      );
+      var grossAssessed = Number(
+        body.grossAssessed || body.gross_assessed || bh.local.grossAssessed || 0
+      );
+      var labourCost = Number(
+        body.labourCost || body.labour_cost || bh.local.labourCost || 0
+      );
+      var depreciatedParts = Number(
+        body.depreciatedParts ||
+          body.depreciated_parts ||
+          body.depParts ||
+          bh.local.depreciatedParts ||
+          0
+      );
+
+      // 3. Deduction Trace Processing
+      var traceObj =
+        body.deduction_trace ||
+        body.deductionTrace ||
+        bh.local.deduction_trace ||
+        {};
+      var deductionTraceStr =
+        typeof traceObj === 'object'
+          ? JSON.stringify(traceObj)
+          : String(traceObj);
+
+      // 4. Auto Settlement Reference Generation
+      bh.local.claimStatus = 'SETTLED';
+      var year = new Date().getFullYear();
+      var sequence = Math.floor(100000 + Math.random() * 900000);
       bh.local.settlementRef = `STL-${year}-${sequence}`;
-      // 2. Direct Postgres DB Update query parameterize karein
+
+      // 5. Postgres Update Query
       bh.local.updateQuery = `
     UPDATE motor_claims.claims
     SET 
         status = '${bh.local.claimStatus}',
         settlement_ref = '${bh.local.settlementRef}',
+        gross_assessed = ${grossAssessed},
+        labour_cost = ${labourCost},
+        depreciated_parts = ${depreciatedParts},
+        system_net_payable = ${netPayable},
+        surveyor_net_payable = ${netPayable},
+        deduction_trace = '${deductionTraceStr}'::jsonb,
         updated_at = NOW()
-    WHERE claim_id = '${bh.input.params.claimId}';
+    WHERE claim_id = '${claimId}';
 `;
 
-      //console.log(`Claim ${bh.local.claimId} auto-settled with Ref: ${bh.local.settlementRef}`);
+      console.log(
+        `Auto-settlement Query generated for Claim ${claimId} with netPayable: ${netPayable}`
+      );
       this.tracerService.sendData(spanInst, bh);
       bh = await this.sd_aO2oT6kuQvg32iWS(bh, parentSpanInst);
       //appendnew_next_prepareCasePayload
