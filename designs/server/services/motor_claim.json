@@ -507,7 +507,7 @@
         },
         "functionName": "sd_xXyz8ep6LklEYU2g",
         "category": "HTTP",
-        "x": 1165,
+        "x": 1345,
         "y": 360,
         "wires": [],
         "__n_excludedFromValidation__": {},
@@ -1064,7 +1064,7 @@
         },
         "functionName": "sd_lpJlbT6RVqBFWgWD",
         "category": "HTTP",
-        "x": 1525,
+        "x": 1585,
         "y": 360,
         "wires": [],
         "__n_excludedFromValidation__": {},
@@ -1082,7 +1082,7 @@
         "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
         "functionName": "sd_EGBkvt88yMWK7vAK",
         "category": "Function",
-        "x": 1425,
+        "x": 1485,
         "y": 360,
         "wires": [
             [
@@ -1111,7 +1111,7 @@
         "ignoreList": "",
         "functionName": "sd_C9cqXXv5vEWafq3n",
         "category": "General",
-        "x": 1345,
+        "x": 1405,
         "y": 360,
         "wires": [
             [
@@ -1951,7 +1951,7 @@
         "y": 360,
         "wires": [
             [
-                "sd_FAfO0Xx07ICV9JZ4"
+                "sd_ujw6UcSbJo4RKGqc"
             ]
         ],
         "__n_excludedFromValidation__": {},
@@ -2364,10 +2364,10 @@
         "viewType": "common",
         "nodeType": "flow",
         "name": "scriptForClaimRegister",
-        "script": "\nif(bh.local.flag==1)\n{\nbh.local.response = {\n    success: true,\n    message: \"Claim registered successfully\",\n    data: {\n        claimId: bh.input.body.claim_id,\n        status: \"REGISTERED\",\n        sla: 24\n    }\n};\n}\nelse{\n     bh.local.response = {\n        success: false,\n        message: \"Date of Loss must be between \" +\n                 bh.local.fetchResult[0].policy_start_date +\n                 \" and \" +\n                 bh.local.fetchResult[0].policy_end_date\n    };\n}",
+        "script": "\nif(bh.local.flag==1)\n{\nbh.local.response = {\n    success: true,\n    message: \"Claim registered successfully\",\n    data: {\n        claimId: bh.input.body.claim_id,\n        status: \"REGISTERED\",\n        netPayable:bh.local.netPayable,\n        sla: 24\n    }\n};\n}\nelse{\n     bh.local.response = {\n        success: false,\n        message: \"Date of Loss must be between \" +\n                 bh.local.fetchResult[0].policy_start_date +\n                 \" and \" +\n                 bh.local.fetchResult[0].policy_end_date\n    };\n}",
         "functionName": "scriptForClaimRegister",
         "category": "Function",
-        "x": 1005,
+        "x": 1265,
         "y": 360,
         "wires": [
             [
@@ -2560,6 +2560,249 @@
         "x": 720,
         "y": 1300,
         "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_aKqskmmRFHq2XJ4d",
+        "type": "HttpIn",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "start",
+        "name": "",
+        "path": "/netPayable/:claimId",
+        "uploadpath": "",
+        "summary": "",
+        "description": "",
+        "method": "post",
+        "sequenceId": "",
+        "consumes": "",
+        "produces": "",
+        "filetype": "path",
+        "acceptFileUpload": false,
+        "useDataModel": false,
+        "dataModelIsArray": false,
+        "erd": "",
+        "erdName": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "responses": [],
+            "params": [],
+            "produces": [],
+            "consumes": []
+        },
+        "inputs": 0,
+        "outputs": 1,
+        "validateRequestUsingSwaggerDocs": false,
+        "category": "HTTP",
+        "x": 165,
+        "y": 1420,
+        "wires": [
+            [
+                "sd_B1fByphVxFOWFwyn"
+            ]
+        ],
+        "__ssdTypeInputs__": {
+            "uploadpath": {
+                "type": "str",
+                "value": "",
+                "nullable": "true",
+                "nullableValue": "",
+                "constant": false
+            }
+        },
+        "__n_excludedFromValidation__": {},
+        "generateNext": true,
+        "serviceName": "motor_claim",
+        "functionName": "sd_aKqskmmRFHq2XJ4d"
+    },
+    {
+        "id": "sd_2y0E52T5Ff3meUcH",
+        "type": "HttpOut",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "headers": {},
+        "responseBody": {
+            "type": "bh.local",
+            "value": "result",
+            "ssd_typedInputField": true
+        },
+        "httpcode": {
+            "type": "num",
+            "value": 200,
+            "ssd_typedInputField": true
+        },
+        "responseType": "obj",
+        "swaggerResponse": {},
+        "responseMapping": {
+            "status": 200,
+            "obj": "bh.local.result",
+            "send": "bh.local.result"
+        },
+        "dataModelIsArray": false,
+        "inputs": 1,
+        "outputs": 0,
+        "erd": "",
+        "entity": "",
+        "entityId": "",
+        "ref": "",
+        "editableListData": {
+            "headers": [],
+            "produces": [],
+            "responses": []
+        },
+        "cookiesList": {},
+        "switchStates": {
+            "headers": "Map",
+            "cookies": "Map"
+        },
+        "functionName": "sd_2y0E52T5Ff3meUcH",
+        "category": "HTTP",
+        "x": 605,
+        "y": 1420,
+        "wires": [],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_B1fByphVxFOWFwyn",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "var b = bh.input.body || {};\nvar claimId = bh.input.params?.claimId || b.claim_id || b.claimId;\n\n// Safe Numeric Extractions\nvar labourCost = Number(b.labour_cost || b.labourCost || 0);\nvar systemNetPayable = Number(b.system_net_payable || b.netPayable || b.systemNetPayable || 0);\nvar grossAssessed = Number(b.gross_assessed || b.grossAssessed || b.grossAssesed || 0);\n\nbh.local.query = `\n    UPDATE motor_claims.claims\n    SET\n        labour_cost = ${labourCost},\n        system_net_payable = ${systemNetPayable},\n        gross_assessed = ${grossAssessed}\n    WHERE claim_id = '${claimId}';\n`;\n\nconsole.log(`Update Query Executed for Claim ${claimId}`);",
+        "functionName": "sd_B1fByphVxFOWFwyn",
+        "category": "Function",
+        "x": 285,
+        "y": 1420,
+        "wires": [
+            [
+                "sd_nJIjPzRLml5qtKsT"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_nJIjPzRLml5qtKsT",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "result"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "query"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "dbType": "postgres",
+        "functionName": "sd_nJIjPzRLml5qtKsT",
+        "category": "Storage",
+        "x": 425,
+        "y": 1420,
+        "wires": [
+            [
+                "sd_2y0E52T5Ff3meUcH"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_ujw6UcSbJo4RKGqc",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "var claimId = bh.input.body.claim_id || \"\";\n\nbh.local.fetchNetpayableQuery = `\nSELECT\n    system_net_payable\nFROM motor_claims.claims\nWHERE claim_id = '${claimId}';\n`;",
+        "functionName": "sd_ujw6UcSbJo4RKGqc",
+        "category": "Function",
+        "x": 940,
+        "y": 360,
+        "wires": [
+            [
+                "sd_yWPq0koeufslg7Uk"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_yWPq0koeufslg7Uk",
+        "type": "ExecuteSql",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "server",
+        "nodeType": "flow",
+        "name": "",
+        "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "resultMap": {
+            "type": "bh.local",
+            "value": "netPayableResult"
+        },
+        "multipleQuery": "",
+        "singleQuery": {
+            "type": "bh.local",
+            "value": "fetchNetpayableQuery"
+        },
+        "inputs": 1,
+        "outputs": 1,
+        "params": [],
+        "dbType": "postgres",
+        "functionName": "sd_yWPq0koeufslg7Uk",
+        "category": "Storage",
+        "x": 1025,
+        "y": 360,
+        "wires": [
+            [
+                "sd_h9MeXGj6MxMLLkVB"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_h9MeXGj6MxMLLkVB",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "",
+        "script": "conmsole.log(\"netPayable<++++++++++++++++++++>\",bh.local.netPayableResult);\n//bh.local.netPayable=bh.local.netPayableResult;",
+        "functionName": "sd_h9MeXGj6MxMLLkVB",
+        "category": "Function",
+        "x": 1125,
+        "y": 360,
+        "wires": [
+            [
+                "sd_FAfO0Xx07ICV9JZ4"
+            ]
+        ],
         "__n_excludedFromValidation__": {},
         "generateNext": false,
         "serviceName": "motor_claim",

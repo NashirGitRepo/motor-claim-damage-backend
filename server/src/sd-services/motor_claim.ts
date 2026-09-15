@@ -403,6 +403,38 @@ export class motor_claim {
         this.generatedMiddlewares
       )
     );
+
+    this.app['post'](
+      `${this.serviceBasePath}/netPayable/:claimId`,
+      cookieParser(),
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'pre',
+        this.generatedMiddlewares
+      ),
+
+      async (req, res, next) => {
+        let bh: any = {};
+        try {
+          bh = this.sdService.__constructDefault(
+            { local: {}, input: {} },
+            req,
+            res,
+            next
+          );
+          let parentSpanInst = null;
+          bh = await this.sd_B1fByphVxFOWFwyn(bh, parentSpanInst);
+          //appendnew_next_sd_aKqskmmRFHq2XJ4d
+        } catch (e) {
+          return await this.errorHandler(bh, e, 'sd_aKqskmmRFHq2XJ4d');
+        }
+      },
+      this.sdService.getMiddlesWaresBySequenceId(
+        null,
+        'post',
+        this.generatedMiddlewares
+      )
+    );
     //appendnew_flow_motor_claim_HttpIn
   }
   //   service flows_motor_claim
@@ -1072,11 +1104,108 @@ WHERE policy_no = '${bh.input.body.policy_no}';
       );
 
       bh.local.caseResult = responseMsg;
-      bh = await this.scriptForClaimRegister(bh, parentSpanInst);
+      bh = await this.sd_ujw6UcSbJo4RKGqc(bh, parentSpanInst);
       //appendnew_next_sd_QNoMWebK5lCffiL4
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_QNoMWebK5lCffiL4');
+    }
+  }
+
+  async sd_ujw6UcSbJo4RKGqc(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_ujw6UcSbJo4RKGqc',
+      parentSpanInst
+    );
+    try {
+      var claimId = bh.input.body.claim_id || '';
+
+      bh.local.fetchNetpayableQuery = `
+SELECT
+    system_net_payable
+FROM motor_claims.claims
+WHERE claim_id = '${claimId}';
+`;
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_yWPq0koeufslg7Uk(bh, parentSpanInst);
+      //appendnew_next_sd_ujw6UcSbJo4RKGqc
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_ujw6UcSbJo4RKGqc',
+        spanInst,
+        'sd_ujw6UcSbJo4RKGqc'
+      );
+    }
+  }
+
+  async sd_yWPq0koeufslg7Uk(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_yWPq0koeufslg7Uk',
+      parentSpanInst
+    );
+    try {
+      let configObj = this.sdService.getConfigObj(
+        'db-config',
+        'sd_c89k8zRbF9ofE0PK'
+      );
+      let connectionName;
+      if (
+        configObj &&
+        configObj.hasOwnProperty('dbOption') &&
+        configObj.dbOption.hasOwnProperty('name')
+      ) {
+        connectionName = configObj.dbOption.name;
+      } else {
+        throw new Error('Cannot find the selected config name');
+      }
+      let params = [];
+      params = params ? params : [];
+      bh.local.netPayableResult = await new GenericRDBMSOperations().executeSQL(
+        connectionName,
+        bh.local.fetchNetpayableQuery,
+        params
+      );
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_h9MeXGj6MxMLLkVB(bh, parentSpanInst);
+      //appendnew_next_sd_yWPq0koeufslg7Uk
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_yWPq0koeufslg7Uk',
+        spanInst,
+        'sd_yWPq0koeufslg7Uk'
+      );
+    }
+  }
+
+  async sd_h9MeXGj6MxMLLkVB(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_h9MeXGj6MxMLLkVB',
+      parentSpanInst
+    );
+    try {
+      conmsole.log(
+        'netPayable<++++++++++++++++++++>',
+        bh.local.netPayableResult
+      );
+      //bh.local.netPayable=bh.local.netPayableResult;
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.scriptForClaimRegister(bh, parentSpanInst);
+      //appendnew_next_sd_h9MeXGj6MxMLLkVB
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_h9MeXGj6MxMLLkVB',
+        spanInst,
+        'sd_h9MeXGj6MxMLLkVB'
+      );
     }
   }
 
@@ -1093,6 +1222,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
           data: {
             claimId: bh.input.body.claim_id,
             status: 'REGISTERED',
+            netPayable: bh.local.netPayable,
             sla: 24,
           },
         };
@@ -2263,6 +2393,101 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       return bh;
     } catch (e) {
       return await this.errorHandler(bh, e, 'sd_KUdaly6IhT2gf2qD');
+    }
+  }
+
+  async sd_B1fByphVxFOWFwyn(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_B1fByphVxFOWFwyn',
+      parentSpanInst
+    );
+    try {
+      var b = bh.input.body || {};
+      var claimId = bh.input.params?.claimId || b.claim_id || b.claimId;
+
+      // Safe Numeric Extractions
+      var labourCost = Number(b.labour_cost || b.labourCost || 0);
+      var systemNetPayable = Number(
+        b.system_net_payable || b.netPayable || b.systemNetPayable || 0
+      );
+      var grossAssessed = Number(
+        b.gross_assessed || b.grossAssessed || b.grossAssesed || 0
+      );
+
+      bh.local.query = `
+    UPDATE motor_claims.claims
+    SET
+        labour_cost = ${labourCost},
+        system_net_payable = ${systemNetPayable},
+        gross_assessed = ${grossAssessed}
+    WHERE claim_id = '${claimId}';
+`;
+
+      console.log(`Update Query Executed for Claim ${claimId}`);
+      this.tracerService.sendData(spanInst, bh);
+      bh = await this.sd_nJIjPzRLml5qtKsT(bh, parentSpanInst);
+      //appendnew_next_sd_B1fByphVxFOWFwyn
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_B1fByphVxFOWFwyn',
+        spanInst,
+        'sd_B1fByphVxFOWFwyn'
+      );
+    }
+  }
+
+  async sd_nJIjPzRLml5qtKsT(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'sd_nJIjPzRLml5qtKsT',
+      parentSpanInst
+    );
+    try {
+      let configObj = this.sdService.getConfigObj(
+        'db-config',
+        'sd_c89k8zRbF9ofE0PK'
+      );
+      let connectionName;
+      if (
+        configObj &&
+        configObj.hasOwnProperty('dbOption') &&
+        configObj.dbOption.hasOwnProperty('name')
+      ) {
+        connectionName = configObj.dbOption.name;
+      } else {
+        throw new Error('Cannot find the selected config name');
+      }
+      let params = [];
+      params = params ? params : [];
+      bh.local.result = await new GenericRDBMSOperations().executeSQL(
+        connectionName,
+        bh.local.query,
+        params
+      );
+      this.tracerService.sendData(spanInst, bh);
+      await this.sd_2y0E52T5Ff3meUcH(bh, parentSpanInst);
+      //appendnew_next_sd_nJIjPzRLml5qtKsT
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_nJIjPzRLml5qtKsT',
+        spanInst,
+        'sd_nJIjPzRLml5qtKsT'
+      );
+    }
+  }
+
+  async sd_2y0E52T5Ff3meUcH(bh, parentSpanInst) {
+    try {
+      bh.web.res.status(200).send(bh.local.result);
+
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(bh, e, 'sd_2y0E52T5Ff3meUcH');
     }
   }
 

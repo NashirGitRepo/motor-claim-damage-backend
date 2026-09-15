@@ -126,5 +126,18 @@
                 "motor_claim"
             ]
         }
+    },
+    "/netPayable/:claimId": {
+        "post": {
+            "summary": "",
+            "description": "",
+            "consumes": [],
+            "produces": [],
+            "parameters": [],
+            "responses": {},
+            "tags": [
+                "motor_claim"
+            ]
+        }
     }
 }
