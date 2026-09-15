@@ -1893,6 +1893,7 @@
         "nodeType": "flow",
         "name": "",
         "method": "post",
+        "methodMapping": "",
         "methodMappingObj": {},
         "urlMapping": "bh.local.caseUrl",
         "urlMappingObj": {
@@ -1900,6 +1901,7 @@
             "mapVarValue": "caseUrl"
         },
         "ret": "json",
+        "retMapping": "",
         "retMappingObj": {},
         "reqBody": "bh.local.caseBody",
         "reqBodyObj": {
@@ -1911,6 +1913,8 @@
             "mapVarType": "bh.local",
             "mapVarValue": "caseResult"
         },
+        "headers": [],
+        "headersObj": {},
         "headerMapping": "bh.local.bpmHeader",
         "headerMappingObj": {
             "mapVarType": "bh.local",
@@ -1918,8 +1922,12 @@
         },
         "params": {},
         "paramsObj": [],
+        "paramMapping": "",
         "paramMappingObj": {},
+        "authType": "",
         "useAuthTypeMappingObj": {},
+        "useAuthTypeMap": {},
+        "useAuthType": "",
         "useAuthUsername": "",
         "useAuthUsernameMappingObj": "",
         "useAuthPassword": "",
@@ -1935,6 +1943,7 @@
         "proxy": "",
         "useProxy": false,
         "usetls": false,
+        "cookies": [],
         "cookiesMapObj": {},
         "cookiesList": {},
         "switchStates": {
@@ -2190,6 +2199,7 @@
         "acceptFileUpload": false,
         "useDataModel": false,
         "dataModelIsArray": false,
+        "uploadFileOptions": "",
         "erd": "",
         "erdName": "",
         "entity": "",
@@ -2256,6 +2266,7 @@
         "nodeType": "flow",
         "name": "",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "result"
@@ -2268,6 +2279,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "sd_E4pfXMxC1AdwNRtE",
         "category": "Storage",
@@ -2309,6 +2321,7 @@
             "send": "bh.local.checkStatus"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -2398,6 +2411,7 @@
         "acceptFileUpload": false,
         "useDataModel": false,
         "dataModelIsArray": false,
+        "uploadFileOptions": "",
         "erd": "",
         "erdName": "",
         "entity": "",
@@ -2464,6 +2478,7 @@
         "nodeType": "flow",
         "name": "",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "netPayableResult"
@@ -2476,6 +2491,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "sd_Z315JeQpRRrFfFGb",
         "category": "Storage",
@@ -2539,6 +2555,7 @@
             "send": "bh.local.netPayableResult"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -2584,6 +2601,7 @@
         "acceptFileUpload": false,
         "useDataModel": false,
         "dataModelIsArray": false,
+        "uploadFileOptions": "",
         "erd": "",
         "erdName": "",
         "entity": "",
@@ -2646,6 +2664,7 @@
             "send": "bh.local.result"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -2702,6 +2721,7 @@
         "nodeType": "flow",
         "name": "",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "result"
@@ -2714,6 +2734,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "sd_nJIjPzRLml5qtKsT",
         "category": "Storage",
@@ -2759,6 +2780,7 @@
         "nodeType": "flow",
         "name": "",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "netPayableResult"
@@ -2771,6 +2793,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "sd_yWPq0koeufslg7Uk",
         "category": "Storage",
@@ -2793,7 +2816,7 @@
         "viewType": "common",
         "nodeType": "flow",
         "name": "",
-        "script": "conmsole.log(\"netPayable<++++++++++++++++++++>\",bh.local.netPayableResult);\n//bh.local.netPayable=bh.local.netPayableResult;",
+        "script": "console.log(\"netPayable<++++++++++++++++++++>\",bh.local.netPayableResult);\n//bh.local.netPayable=bh.local.netPayableResult;",
         "functionName": "sd_h9MeXGj6MxMLLkVB",
         "category": "Function",
         "x": 1125,

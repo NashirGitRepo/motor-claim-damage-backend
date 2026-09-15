@@ -1067,7 +1067,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         method: 'post',
         headers: bh.local.bpmHeader,
         followRedirects: true,
-        cookies: undefined,
+        cookies: {},
         authType: undefined,
         body: bh.local.caseBody,
         paytoqs: false,
@@ -1161,7 +1161,7 @@ WHERE claim_id = '${claimId}';
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.netPayableResult = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -1189,7 +1189,7 @@ WHERE claim_id = '${claimId}';
       parentSpanInst
     );
     try {
-      conmsole.log(
+      console.log(
         'netPayable<++++++++++++++++++++>',
         bh.local.netPayableResult
       );
@@ -2223,7 +2223,7 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.result = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -2325,7 +2325,7 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.netPayableResult = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -2459,7 +2459,7 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.result = await new GenericRDBMSOperations().executeSQL(
         connectionName,
