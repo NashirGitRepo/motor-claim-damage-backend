@@ -265,7 +265,6 @@
         "nodeType": "flow",
         "name": "executeSQLQuery",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
-        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "result"
@@ -278,7 +277,6 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
-        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "executeSqlQuery",
         "category": "Storage",
@@ -286,7 +284,7 @@
         "y": 220,
         "wires": [
             [
-                "sd_qSYpcmsrX5ojENYQ"
+                "sd_4neUItJPUSEOE6QR"
             ]
         ],
         "__n_excludedFromValidation__": {},
@@ -320,7 +318,6 @@
             "send": "bh.local.result"
         },
         "dataModelIsArray": false,
-        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -339,7 +336,7 @@
         },
         "functionName": "getPolicyDetails",
         "category": "HTTP",
-        "x": 545,
+        "x": 625,
         "y": 220,
         "wires": [],
         "__n_excludedFromValidation__": {},
@@ -1438,7 +1435,7 @@
         "headers": {},
         "responseBody": {
             "type": "bh.local",
-            "value": "apiResponse",
+            "value": "responseBody",
             "ssd_typedInputField": true
         },
         "httpcode": {
@@ -1450,11 +1447,10 @@
         "swaggerResponse": {},
         "responseMapping": {
             "status": "bh.local.statusCode",
-            "obj": "bh.local.apiResponse",
-            "send": "bh.local.apiResponse"
+            "obj": "bh.local.responseBody",
+            "send": "bh.local.responseBody"
         },
         "dataModelIsArray": false,
-        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -1473,31 +1469,9 @@
         },
         "functionName": "sd_QWjoIlcRIlAaBWJ3",
         "category": "HTTP",
-        "x": 867,
-        "y": 230.1354217529297,
+        "x": 825,
+        "y": 220,
         "wires": [],
-        "__n_excludedFromValidation__": {},
-        "generateNext": false,
-        "serviceName": "motor_claim",
-        "generated": true
-    },
-    {
-        "id": "sd_0TAbzEZOcSWswUIb",
-        "type": "Script",
-        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
-        "viewType": "common",
-        "nodeType": "flow",
-        "name": "",
-        "script": "console.log(\"========== CATCH NODE ==========\");\nlet message =\n    bh.error?.message ||\n    \"Internal Server Error\";\n\nlet statusCode =\n    bh.error?.statusCode ||\n    500;\n\nbh.local.statusCode = statusCode;\n\nbh.local.apiResponse = {\n    success: false,\n    message: message\n};\n``",
-        "functionName": "sd_0TAbzEZOcSWswUIb",
-        "category": "Function",
-        "x": 767,
-        "y": 230.1354217529297,
-        "wires": [
-            [
-                "sd_QWjoIlcRIlAaBWJ3"
-            ]
-        ],
         "__n_excludedFromValidation__": {},
         "generateNext": false,
         "serviceName": "motor_claim",
@@ -1513,18 +1487,19 @@
         "selectedNodes": [
             "sd_Co7m3tBEgoaEaTO7",
             "sd_4D6Q0R1fXx1ExVO1",
-            "sd_qSYpcmsrX5ojENYQ"
+            "sd_qSYpcmsrX5ojENYQ",
+            "sd_4neUItJPUSEOE6QR"
         ],
         "selectCatchType": "selectednodes",
         "masternodeList": "",
         "ignoreList": "",
         "functionName": "sd_8aw1Wepjvo5OtFQo",
         "category": "General",
-        "x": 667,
-        "y": 230.1354217529297,
+        "x": 725,
+        "y": 220,
         "wires": [
             [
-                "sd_0TAbzEZOcSWswUIb"
+                "sd_QWjoIlcRIlAaBWJ3"
             ]
         ],
         "__n_excludedFromValidation__": {},
@@ -2824,6 +2799,28 @@
         "wires": [
             [
                 "sd_FAfO0Xx07ICV9JZ4"
+            ]
+        ],
+        "__n_excludedFromValidation__": {},
+        "generateNext": false,
+        "serviceName": "motor_claim",
+        "generated": true
+    },
+    {
+        "id": "sd_4neUItJPUSEOE6QR",
+        "type": "Script",
+        "z": "SSD_SERVICE_ID_sd_XsDiaguzr84hAHuz",
+        "viewType": "common",
+        "nodeType": "flow",
+        "name": "ErrorHandleForPolicyNo",
+        "script": "var notexists = bh.local.result.length == 0;\n\n\nif (notexists) {\n\n\n    bh.local.statusCode = 404;\n\n\n    let msg = \"Policy Not Found\";\n\n\n    bh.local.responseBody = {\n        error: msg\n    };\n\n\n    throw new Error(msg);\n}\n\n\n\n// Policy exists\nvar policy = bh.local.result[0];\n\n\n\n// Check policy status\nif (String(policy.status).toUpperCase() !== \"ACTIVE\") {\n\n\n    bh.local.statusCode = 404;\n\n\n    let msg = \"Policy is not ACTIVE\";\n\n\n    bh.local.responseBody = {\n        error: msg\n    };\n\n\n    throw new Error(msg);\n}\n\n\n\n// Policy found and ACTIVE\nbh.local.statusCode = 200;\n\n\nbh.local.responseBody = policy;",
+        "functionName": "errorHandleForPolicyNo",
+        "category": "Function",
+        "x": 505,
+        "y": 220,
+        "wires": [
+            [
+                "sd_qSYpcmsrX5ojENYQ"
             ]
         ],
         "__n_excludedFromValidation__": {},

@@ -559,7 +559,7 @@ export class motor_claim {
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = undefined;
+      let params = [];
       params = params ? params : [];
       bh.local.result = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -567,7 +567,7 @@ export class motor_claim {
         params
       );
       this.tracerService.sendData(spanInst, bh);
-      await this.getPolicyDetails(bh, parentSpanInst);
+      bh = await this.errorHandleForPolicyNo(bh, parentSpanInst);
       //appendnew_next_executeSqlQuery
       return bh;
     } catch (e) {
@@ -577,6 +577,61 @@ export class motor_claim {
         'sd_4D6Q0R1fXx1ExVO1',
         spanInst,
         'executeSqlQuery'
+      );
+    }
+  }
+
+  async errorHandleForPolicyNo(bh, parentSpanInst) {
+    const spanInst = this.tracerService.createSpan(
+      'errorHandleForPolicyNo',
+      parentSpanInst
+    );
+    try {
+      var notexists = bh.local.result.length == 0;
+
+      if (notexists) {
+        bh.local.statusCode = 404;
+
+        let msg = 'Policy Not Found';
+
+        bh.local.responseBody = {
+          error: msg,
+        };
+
+        throw new Error(msg);
+      }
+
+      // Policy exists
+      var policy = bh.local.result[0];
+
+      // Check policy status
+      if (String(policy.status).toUpperCase() !== 'ACTIVE') {
+        bh.local.statusCode = 404;
+
+        let msg = 'Policy is not ACTIVE';
+
+        bh.local.responseBody = {
+          error: msg,
+        };
+
+        throw new Error(msg);
+      }
+
+      // Policy found and ACTIVE
+      bh.local.statusCode = 200;
+
+      bh.local.responseBody = policy;
+      this.tracerService.sendData(spanInst, bh);
+      await this.getPolicyDetails(bh, parentSpanInst);
+      //appendnew_next_errorHandleForPolicyNo
+      return bh;
+    } catch (e) {
+      return await this.errorHandler(
+        bh,
+        e,
+        'sd_4neUItJPUSEOE6QR',
+        spanInst,
+        'errorHandleForPolicyNo'
       );
     }
   }
@@ -1860,42 +1915,9 @@ WHERE claim_id = '${claimId}';
     }
   }
 
-  async sd_0TAbzEZOcSWswUIb(bh, parentSpanInst) {
-    const spanInst = this.tracerService.createSpan(
-      'sd_0TAbzEZOcSWswUIb',
-      parentSpanInst
-    );
-    try {
-      console.log('========== CATCH NODE ==========');
-      let message = bh.error?.message || 'Internal Server Error';
-
-      let statusCode = bh.error?.statusCode || 500;
-
-      bh.local.statusCode = statusCode;
-
-      bh.local.apiResponse = {
-        success: false,
-        message: message,
-      };
-      ``;
-      this.tracerService.sendData(spanInst, bh);
-      await this.sd_QWjoIlcRIlAaBWJ3(bh, parentSpanInst);
-      //appendnew_next_sd_0TAbzEZOcSWswUIb
-      return bh;
-    } catch (e) {
-      return await this.errorHandler(
-        bh,
-        e,
-        'sd_0TAbzEZOcSWswUIb',
-        spanInst,
-        'sd_0TAbzEZOcSWswUIb'
-      );
-    }
-  }
-
   async sd_QWjoIlcRIlAaBWJ3(bh, parentSpanInst) {
     try {
-      bh.web.res.status(bh.local.statusCode).send(bh.local.apiResponse);
+      bh.web.res.status(bh.local.statusCode).send(bh.local.responseBody);
 
       return bh;
     } catch (e) {
@@ -2574,9 +2596,10 @@ WHERE policy_no = '${bh.input.params.policyNo}';
       'sd_Co7m3tBEgoaEaTO7',
       'sd_4D6Q0R1fXx1ExVO1',
       'sd_qSYpcmsrX5ojENYQ',
+      'sd_4neUItJPUSEOE6QR',
     ];
     if (nodes.includes(bh.errorSource)) {
-      bh = await this.sd_0TAbzEZOcSWswUIb(bh, parentSpanInst);
+      await this.sd_QWjoIlcRIlAaBWJ3(bh, parentSpanInst);
       //appendnew_next_sd_8aw1Wepjvo5OtFQo
       return true;
     }
