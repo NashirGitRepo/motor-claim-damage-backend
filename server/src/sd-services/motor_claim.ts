@@ -1189,11 +1189,16 @@ WHERE claim_id = '${claimId}';
       parentSpanInst
     );
     try {
-      console.log(
-        'netPayable<++++++++++++++++++++>',
-        bh.local.netPayableResult
-      );
-      //bh.local.netPayable=bh.local.netPayableResult;
+      // Array check karke safe numeric extraction
+      if (bh.local.netPayableResult && bh.local.netPayableResult.length > 0) {
+        bh.local.netPayable = Number(
+          bh.local.netPayableResult[0].system_net_payable || 0
+        );
+      } else {
+        bh.local.netPayable = 0;
+      }
+
+      console.log('Extracted systemNetPayable:', bh.local.netPayable);
       this.tracerService.sendData(spanInst, bh);
       bh = await this.scriptForClaimRegister(bh, parentSpanInst);
       //appendnew_next_sd_h9MeXGj6MxMLLkVB

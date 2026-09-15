@@ -2816,7 +2816,7 @@
         "viewType": "common",
         "nodeType": "flow",
         "name": "",
-        "script": "console.log(\"netPayable<++++++++++++++++++++>\",bh.local.netPayableResult);\n//bh.local.netPayable=bh.local.netPayableResult;",
+        "script": "// Array check karke safe numeric extraction\nif (bh.local.netPayableResult && bh.local.netPayableResult.length > 0) {\n    bh.local.netPayable = Number(bh.local.netPayableResult[0].system_net_payable || 0);\n} else {\n    bh.local.netPayable = 0;\n}\n\nconsole.log(\"Extracted systemNetPayable:\", bh.local.netPayable);",
         "functionName": "sd_h9MeXGj6MxMLLkVB",
         "category": "Function",
         "x": 1125,
