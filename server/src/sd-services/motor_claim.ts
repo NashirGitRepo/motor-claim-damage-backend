@@ -1619,6 +1619,7 @@ WHERE claim_id = '${claimId}';
 
       // Safe strings extraction
       var remark = (b.remark || '').replace(/'/g, "''");
+      var surremark = (b.surRemark || '').replace(/'/g, "''");
       var deductionTrace =
         typeof b.deduction_trace === 'object'
           ? JSON.stringify(b.deduction_trace)
@@ -1649,6 +1650,7 @@ WHERE claim_id = '${claimId}';
             surveyor_net_payable = ${surveyorNetPayable},
             deduction_trace = '${deductionTrace}',
             manager_remarks = '${remark}',
+            surveyor_remarks='${surremark}',
             settlement_ref = '${bh.local.settlementRef}',
             status = 'SETTLED',
             updated_at = NOW()
