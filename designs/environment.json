@@ -28,7 +28,7 @@
             "isIDSEnabled": "false",
             "SSD_BASE_PATH": "/api",
             "SSD_DEFAULT_PORT": "8081",
-            "webAppMountpoint": "",
+            "webAppMountpoint": "web",
             "CLOCK_TOLERANCE": "5",
             "NGFORAGE_MOBILE_DRIVER": "INDEXED_DB"
         }
@@ -45,7 +45,7 @@
             "isIDSEnabled": "false",
             "SSD_BASE_PATH": "/api",
             "SSD_DEFAULT_PORT": "8081",
-            "webAppMountpoint": "",
+            "webAppMountpoint": "web",
             "CLOCK_TOLERANCE": "5",
             "NGFORAGE_MOBILE_DRIVER": "INDEXED_DB"
         }
