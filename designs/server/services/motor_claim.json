@@ -265,6 +265,7 @@
         "nodeType": "flow",
         "name": "executeSQLQuery",
         "databaseConfig": "sd_c89k8zRbF9ofE0PK",
+        "queryType": "",
         "resultMap": {
             "type": "bh.local",
             "value": "result"
@@ -277,6 +278,7 @@
         "inputs": 1,
         "outputs": 1,
         "params": [],
+        "paramMappingObj": {},
         "dbType": "postgres",
         "functionName": "executeSqlQuery",
         "category": "Storage",
@@ -318,6 +320,7 @@
             "send": "bh.local.result"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -1451,6 +1454,7 @@
             "send": "bh.local.responseBody"
         },
         "dataModelIsArray": false,
+        "cookies": [],
         "inputs": 1,
         "outputs": 0,
         "erd": "",
@@ -1513,7 +1517,7 @@
         "viewType": "common",
         "nodeType": "flow",
         "name": "fetchStartAndEnd",
-        "script": "bh.local.fetchQuery = `\nSELECT\n    policy_start_date,\n    policy_end_date\nFROM motor_claims.policies\nWHERE policy_no = '${bh.input.body.policy_no}';\n`;",
+        "script": "bh.local.fetchQuery = `\nSELECT\n    policy_start_date,\n    policy_end_date\nFROM motor_claims.policies\nWHERE policy_no = '${bh.input.body.policy_no}';\n`;\n\n\nconsole.log(\"hello Nashir \");",
         "functionName": "fetchStartAndEnd",
         "category": "Function",
         "x": 165,

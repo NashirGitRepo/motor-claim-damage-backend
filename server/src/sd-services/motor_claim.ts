@@ -559,7 +559,7 @@ export class motor_claim {
       } else {
         throw new Error('Cannot find the selected config name');
       }
-      let params = [];
+      let params = undefined;
       params = params ? params : [];
       bh.local.result = await new GenericRDBMSOperations().executeSQL(
         connectionName,
@@ -659,6 +659,8 @@ SELECT
 FROM motor_claims.policies
 WHERE policy_no = '${bh.input.body.policy_no}';
 `;
+
+      console.log('hello Nashir ');
       this.tracerService.sendData(spanInst, bh);
       bh = await this.sd_RgMpwxx0sYuVDl8D(bh, parentSpanInst);
       //appendnew_next_fetchStartAndEnd
