@@ -1070,6 +1070,7 @@ WHERE policy_no = '${bh.input.body.policy_no}';
         garageType: bh.input.body.garage_type || '',
         netPayable: Number(bh.input.body.netPayable || 0),
         fire_file: String(Boolean(bh.input.body.fir_filed)),
+        validLicense: bh.input.body.valid_licence,
       };
 
       console.log('api body------->', claimData);
