@@ -1413,7 +1413,7 @@ WHERE claim_id = '${claimId}';
       // 2. Settlement Reference Generator (STL-YYYY-XXXXXX)
       var year = new Date().getFullYear();
       var sequence = Math.floor(100000 + Math.random() * 900000);
-      var settlementRef = `STL-${year}-${sequence}`;
+      bh.local.settlementRef = `STL-${year}-${sequence}`;
 
       // 3. Dynamic deduction_trace parser
       var deductionTrace = '{}';
@@ -1462,8 +1462,8 @@ WHERE claim_id = '${claimId}';
             surveyor_net_payable = ${systemNetPayable},
             deduction_trace = '${deductionTrace}',
             surveyor_remarks = '${remark}',
-            settlement_ref = ${settlementRefVal},
-            status = '${targetStatus}',
+            settlement_ref = ${bh.local.settlementRef},
+            status = 'SETTLED',
             updated_at = NOW()
         WHERE claim_id = '${claimId}';
         `;
