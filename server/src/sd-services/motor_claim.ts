@@ -1446,11 +1446,11 @@ WHERE claim_id = '${claimId}';
 
       switch (action) {
         case 'CONFIRM':
-          var isManagerReq = String(b.isManagerReq).toLowerCase() === 'true';
-          var targetStatus = isManagerReq ? 'MANAGER_APPROVAL' : 'SETTLED';
+          //  var isManagerReq = String(b.isManagerReq).toLowerCase() === 'true';
+          //var targetStatus = isManagerReq ? 'MANAGER_APPROVAL' : 'SETTLED';
 
           // Agar Direct Settle ho raha hai tabhi settlement_ref set hoga, warna null/empty rahega manager approval tak
-          var settlementRefVal = !isManagerReq ? `'${settlementRef}'` : 'NULL';
+          //  var settlementRefVal = !isManagerReq ? `'${settlementRef}'` : 'NULL';
 
           bh.local.query = `
         UPDATE motor_claims.claims
